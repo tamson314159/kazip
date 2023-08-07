@@ -1,11 +1,37 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Kazip.Repo.insert!(%Kazip.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+alias Kazip.Articles.Article
+alias Kazip.Repo
+
+article =
+  %Article{
+    title: "時間管理のライフハック",
+    body: """
+    ## 目標を明確にする
+
+    * 短期的な目標と長期的な目標を設定しましょう。
+    * 目標は、自分の価値観や興味に合ったものである必要があります。
+    * 目標は具体的で、測定可能で、達成可能で、関連性があり、期限を定めてください。
+    * 目標は、自分にとって重要なものである必要があります。
+    * 目標は、自分にとってチャレンジングなものである必要があります。
+
+    ## タスクを分解する
+
+    大きなタスクを分解することで、より管理しやすくなります。また、タスクを分解することで、達成感を得ることができ、モチベーションの維持にもつながります。
+
+    ## 優先順位をつける
+
+    すべてのタスクに同じように時間をかけるのは、効率的ではありません。重要なタスクに優先順位をつけることで、時間の無駄を防ぐことができます。
+
+    ## 休憩をとる
+
+    長時間、集中していると、ミスや疲労が蓄積されます。適度に休憩をとることで、集中力を維持し、効率的に作業を行うことができます。
+
+    ## ツールを活用する
+
+    時間管理を効率的に行うために、ツールを活用することも有効です。タスク管理ツールや時間管理アプリなど、さまざまなツールが無料で提供されています。
+
+    時間管理は、一朝一夕に身につくものではありません。しかし、今回ご紹介したライフハックを参考にすることで、時間管理スキルを向上させることができます。ぜひ、参考にしてみてください。
+    """,
+    submit_date: Date.utc_today()
+  }
+
+  Repo.insert!(article)

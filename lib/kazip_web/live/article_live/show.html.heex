@@ -10,9 +10,12 @@
 
 <.list>
   <:item title="Title"><%= @article.title %></:item>
-  <:item title="Body"><%= @article.body %></:item>
   <:item title="Submit date"><%= @article.submit_date %></:item>
 </.list>
+
+<div class="article_body">
+  <%= @article.body |> parse_markdown |> raw %>
+</div>
 
 <.back navigate={~p"/"}>Back to articles</.back>
 

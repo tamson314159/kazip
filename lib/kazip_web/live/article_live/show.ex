@@ -18,4 +18,8 @@ defmodule KazipWeb.ArticleLive.Show do
 
   defp page_title(:show), do: "Show Article"
   defp page_title(:edit), do: "Edit Article"
+
+  def parse_markdown(markdown) do
+    Earmark.as_html!(markdown)
+  end
 end
