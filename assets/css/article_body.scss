@@ -1,7 +1,59 @@
 .article_body h1 {
-  font-size: 10rem;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.article_body h2 {
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+.article_body h3 {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.article_body h4 {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.article_body h5 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.article_body h6 {
+  font-size: 1em;
+  font-weight: bold;
 }
 
 .article_body ul {
-  list-style: square;
+  list-style-type: disc;
+  padding-left: 40px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.article_body p {
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+
+.article_body ol {
+  list-style-type: decimal;
+  padding-left: 40px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+/* リンク */
+a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: none;
 }
