@@ -4,7 +4,7 @@ defmodule Kazip.Repo.Migrations.CreateArticles do
   def change do
     create table(:articles) do
       add :title, :string, null: false
-      add :body, :string
+      add :body, :text
       add :submit_date, :date
 
       timestamps()
