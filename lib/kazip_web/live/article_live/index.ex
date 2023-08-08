@@ -44,4 +44,13 @@ defmodule KazipWeb.ArticleLive.Index do
 
     {:noreply, stream_delete(socket, :articles, article)}
   end
+
+  def first_character(markdown, number) do
+    markdown
+    |> Earmark.as_html!()
+    |> Floki.parse_document!()
+    |> Floki.text()
+    |> String.replace("\n", " ")
+    |> String.slice(1..number)
+  end
 end
