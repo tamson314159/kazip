@@ -46,19 +46,11 @@ defmodule KazipWeb.ArticleLive.Index do
   end
 
   def first_character(markdown, number) do
-    # {_element, _attribute, content, _option} = markdown
     markdown
-    |> Earmark.as_ast!()
-    |> Enum.map(fn {_element, _attribute, content, _option} -> remove_escape_characters(content) end)
-    |> Enum.join()
+    |> Earmark.as_html!()
+    |> Floki.parse_document!()
+    |> Floki.text()
+    |> String.replace("\n", " ")
     |> String.slice(1..number)
   end
-
-  defp remove_escape_characters(string) do
-    string
-    |> String.split()
-    |> String.trim()
-    |> Enum.join(" ")
-  end
-
 end
