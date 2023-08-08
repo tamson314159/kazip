@@ -8,7 +8,7 @@ user1 =
     hashed_password: Pbkdf2.hash_pwd_salt("user01999")
   }
 
-Repo.insert!(user1)
+user1 = Repo.insert!(user1)
 
 article1 =
   %Article{

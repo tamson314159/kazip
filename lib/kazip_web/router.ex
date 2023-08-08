@@ -24,7 +24,7 @@ defmodule KazipWeb.Router do
 
     live "/", ArticleLive.Index, :index
 
-    live "/articles/:id", ArticleLive.Show, :show
+    # live "/articles/:id", ArticleLive.Show, :show
 
   end
 
@@ -81,6 +81,8 @@ defmodule KazipWeb.Router do
 
   scope "/", KazipWeb do
     pipe_through [:browser]
+
+    live "/articles/:id", ArticleLive.Show, :show
 
     delete "/accounts/log_out", AccountSessionController, :delete
 

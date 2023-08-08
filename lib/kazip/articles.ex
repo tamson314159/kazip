@@ -59,7 +59,7 @@ defmodule Kazip.Articles do
 
   """
   def create_article(attrs \\ %{}) do
-    %Article{submit_date: Date.utc_today()}
+    %Article{}
     |> Article.changeset(attrs)
     |> Repo.insert()
   end

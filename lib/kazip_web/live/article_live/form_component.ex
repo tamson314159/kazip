@@ -56,7 +56,6 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   end
 
   def handle_event("save", %{"article" => article_params}, socket) do
-    IO.inspect(article_params)
     save_article(socket, socket.assigns.action, article_params)
   end
 
@@ -76,6 +75,9 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   end
 
   defp save_article(socket, :new, article_params) do
+    current_account_id = socket.assigns.current_account.id
+    article_params = Map.merge(article_params, %{"account_id" => current_account_id})
+    IO.puts(article_params)
     case Articles.create_article(article_params) do
       {:ok, article} ->
         notify_parent({:saved, article})

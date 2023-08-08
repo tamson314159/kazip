@@ -18,6 +18,20 @@ defmodule Kazip.Articles.Article do
   def changeset(article, attrs) do
     article
     |> cast(attrs, [:title, :body, :submit_date, :status])
-    |> validate_required([:title, :body, :submit_date, :status])
+    |> validate_required([:title, :status])
+  end
+
+  def validate_articles(cs) do
+    cs =
+      validate_required(cs, :title, message: "Please fill in the title.")
+
+    unless get_field(cs, :status, 0) == 0 do
+      cs
+      |> change(%{submit_date: Date.utc_today()})
+      |> validate_required(:body, message: "Please fill the body.")
+      |> validate_required(:submit_date)
+    else
+      cs
+    end
   end
 end
