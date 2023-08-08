@@ -6,7 +6,7 @@ defmodule KazipWeb.ArticleLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :articles, Articles.list_articles())}
+    {:ok, stream(socket, :articles, Articles.list_articles(:public))}
   end
 
   @impl true

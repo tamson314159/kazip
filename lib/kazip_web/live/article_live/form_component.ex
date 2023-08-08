@@ -21,6 +21,12 @@ defmodule KazipWeb.ArticleLive.FormComponent do
       >
         <.input field={@form[:title]} type="text" label="Title" />
         <.input field={@form[:body]} type="textarea" label="Body" />
+        <.input
+          field={@form[:status]}
+          type="select"
+          label="Public Type"
+          options={[draft: 0, public: 1, limited: 2]}
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Article</.button>
         </:actions>
@@ -50,6 +56,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   end
 
   def handle_event("save", %{"article" => article_params}, socket) do
+    IO.inspect(article_params)
     save_article(socket, socket.assigns.action, article_params)
   end
 

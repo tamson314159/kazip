@@ -21,6 +21,15 @@ defmodule Kazip.Articles do
     Repo.all(Article)
   end
 
+  def list_articles(:public) do
+    query =
+      from(a in Article,
+        where: a.status == 1
+      )
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single article.
 

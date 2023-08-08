@@ -23,11 +23,9 @@ defmodule KazipWeb.Router do
     #get "/", PageController, :home
 
     live "/", ArticleLive.Index, :index
-    live "/articles/new", ArticleLive.Index, :new
-    live "/articles/:id/edit", ArticleLive.Index, :edit
 
     live "/articles/:id", ArticleLive.Show, :show
-    live "/articles/:id/show/edit", ArticleLive.Show, :edit
+
   end
 
   # Other scopes may use custom stacks.
@@ -75,6 +73,9 @@ defmodule KazipWeb.Router do
       on_mount: [{KazipWeb.AccountAuth, :ensure_authenticated}] do
       live "/accounts/settings", AccountSettingsLive, :edit
       live "/accounts/settings/confirm_email/:token", AccountSettingsLive, :confirm_email
+      live "/articles/new", ArticleLive.Index, :new
+      live "/articles/:id/edit", ArticleLive.Index, :edit
+      live "/articles/:id/show/edit", ArticleLive.Show, :edit
     end
   end
 
