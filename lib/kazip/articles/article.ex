@@ -17,8 +17,8 @@ defmodule Kazip.Articles.Article do
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:title, :body, :submit_date, :status])
-    |> validate_required([:title, :status])
+    |> cast(attrs, [:title, :body, :submit_date, :status, :account_id])
+    |> validate_articles()
   end
 
   def validate_articles(cs) do

@@ -22,10 +22,11 @@ defmodule KazipWeb.Router do
 
     #get "/", PageController, :home
 
-    live "/", ArticleLive.Index, :index
+    live_session :home_authenticated, on_mount: [{KazipWeb.AccountAuth, :mount_current_account}] do
+      live "/", ArticleLive.Index, :index
 
-    # live "/articles/:id", ArticleLive.Show, :show
-
+      # live "/articles/:id", ArticleLive.Show, :show
+    end
   end
 
   # Other scopes may use custom stacks.
