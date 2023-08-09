@@ -3,7 +3,7 @@ defmodule KazipWeb.ArticleLive.Drafts do
 
   alias Kazip.Articles
   alias KazipWeb.ArticleLive.Index
-  alias Kazip.Articles.Article
+  #alias Kazip.Articles.Article
 
   def render(assigns) do
     ~H"""
@@ -45,18 +45,6 @@ defmodule KazipWeb.ArticleLive.Drafts do
         </.link>
       </:action>
     </.table>
-
-    <.modal :if={@live_action in [:new, :edit]} id="article-modal" show on_cancel={JS.patch(~p"/drafts")}>
-      <.live_component
-        module={KazipWeb.ArticleLive.FormComponent}
-        id={@article.id || :new}
-        title={@page_title}
-        action={@live_action}
-        article={@article}
-        patch={~p"/drafts"}
-        current_account={@current_account}
-      />
-    </.modal>
     """
   end
 
@@ -68,27 +56,11 @@ defmodule KazipWeb.ArticleLive.Drafts do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Article")
-    |> assign(:article, Articles.get_article!(id))
-  end
-
-  defp apply_action(socket, :new, _params) do
-    socket
-    |> assign(:page_title, "New Article")
-    |> assign(:article, %Article{})
-  end
-
   # ページのタイトルをアサインする関数
   defp apply_action(socket, :drafts, _params) do
     socket
     |> assign(:page_title, "Listing Drafts")
     |> assign(:article, nil)
-  end
-
-  def handle_info({KazipWeb.ArticleLive.FormComponent, {:saved, article}}, socket) do
-    {:noreply, stream_insert(socket, :articles, article)}
   end
 
   # 下書きを削除できるようにする関数

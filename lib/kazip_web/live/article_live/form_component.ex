@@ -70,6 +70,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Article updated successfully")
+         |> assign(:patch, ~p"/drafts")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -84,6 +85,10 @@ defmodule KazipWeb.ArticleLive.FormComponent do
     case Articles.create_article(article_params) do
       {:ok, article} ->
         notify_parent({:saved, article})
+
+        if article_params["status"] == 0 do
+          assign(socket, :patch, ~p"/drafts")
+        end
 
         {:noreply,
          socket

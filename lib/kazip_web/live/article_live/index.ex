@@ -9,6 +9,10 @@ defmodule KazipWeb.ArticleLive.Index do
     {:ok, stream(socket, :articles, Articles.list_articles(:public))}
   end
 
+  # def handle_event("filter_drafts", _params, socket) do
+  #   {:noreply, stream(socket, :articles, Articles.list_articles(:draft))}
+  # end
+
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
