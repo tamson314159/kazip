@@ -47,7 +47,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
       </label> --%>
 
       <div class="article_body" :if={@preview}>
-        <%= (@form.params["body"] || "") |> parse_markdown() |> raw() %>
+        <%= (@form.params["body"] || @article.body || "") |> parse_markdown() |> raw() %>
       </div>
     </div>
     """
