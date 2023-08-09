@@ -77,6 +77,8 @@ defmodule KazipWeb.Router do
       live "/articles/new", ArticleLive.Index, :new
       live "/articles/:id/edit", ArticleLive.Index, :edit
       live "/articles/:id/show/edit", ArticleLive.Show, :edit
+
+      live "/drafts", ArticleLive.Drafts, :drafts
     end
   end
 

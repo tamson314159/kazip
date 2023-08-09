@@ -56,6 +56,9 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   end
 
   def handle_event("save", %{"article" => article_params}, socket) do
+    IO.puts("\n\n\nxxxxxxxxxx")
+    IO.inspect(article_params)
+    IO.puts("xxxxxxxxxxxxx\n\n\n")
     save_article(socket, socket.assigns.action, article_params)
   end
 

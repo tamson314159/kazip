@@ -4,6 +4,11 @@
     <.link patch={~p"/articles/new"}>
       <.button>New Article</.button>
     </.link>
+    <%= if @current_account do %>
+      <.link patch={~p"/drafts"}>
+        <.button>Drafts</.button>
+      </.link>
+    <% end %>
   </:actions>
 </.header>
 
@@ -13,14 +18,18 @@
   row_click={fn {_id, article} -> JS.navigate(~p"/articles/#{article}") end}
 >
   <:col :let={{_id, article}} label="Title"><%= article.title %></:col>
+  
   <:col :let={{_id, article}} label="Body"><%= first_character(article.body, 30) %></:col>
+  
   <:col :let={{_id, article}} label="Submit date"><%= article.submit_date %></:col>
+  
   <:action :let={{_id, article}}>
     <div class="sr-only">
       <.link navigate={~p"/articles/#{article}"}>Show</.link>
     </div>
-    <.link patch={~p"/articles/#{article}/edit"}>Edit</.link>
+     <.link patch={~p"/articles/#{article}/edit"}>Edit</.link>
   </:action>
+  
   <:action :let={{id, article}}>
     <.link
       phx-click={JS.push("delete", value: %{id: article.id}) |> hide("##{id}")}
