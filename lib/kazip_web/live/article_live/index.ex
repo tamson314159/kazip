@@ -34,7 +34,7 @@ defmodule KazipWeb.ArticleLive.Index do
     socket
     |> assign(:page_title, "Listing Articles")
     |> assign(:article, nil)
-    |> stream(:articles, Articles.list_articles(:public))
+    |> stream(:articles, Articles.list_articles(:public), reset: true)
   end
 
   defp apply_action(socket, :drafts, _params) do
