@@ -2,6 +2,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   use KazipWeb, :live_component
 
   alias Kazip.Articles
+  alias Kazip.Articles.Article
 
   @impl true
   def render(assigns) do
@@ -56,24 +57,30 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   end
 
   def handle_event("save", %{"article" => article_params}, socket) do
-    IO.puts("\n\n\nxxxxxxxxxx")
-    IO.inspect(article_params)
-    IO.puts("xxxxxxxxxxxxx\n\n\n")
-    save_article(socket, socket.assigns.action, article_params)
+    {:noreply, save_article(socket, socket.assigns.action, article_params)}
   end
 
   defp save_article(socket, :edit, article_params) do
     case Articles.update_article(socket.assigns.article, article_params) do
-      {:ok, article} ->
+      {:ok, %Article{status: 0}} ->
+        socket
+        |> put_flash(:info, "Article saved successfully")
+        |> redirect(to: ~p"/drafts")
+
+      {:ok, %Article{status: 1} = article} ->
         notify_parent({:saved, article})
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Article updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+        socket
+        |> put_flash(:info, "Article updated successfully")
+        |> push_patch(to: socket.assigns.patch)
+
+      {:ok, %Article{status: 2}} ->
+        socket
+        |> put_flash(:info, "Article updated successfully")
+        |> redirect(to: ~p"/limited")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
+        assign_form(socket, changeset)
     end
   end
 
@@ -82,16 +89,25 @@ defmodule KazipWeb.ArticleLive.FormComponent do
     article_params = Map.merge(article_params, %{"account_id" => current_account_id})
 
     case Articles.create_article(article_params) do
-      {:ok, article} ->
-        notify_parent({:saved, article})
+      {:ok, %Article{status: 0}} ->
+        socket
+        |> put_flash(:info, "Article saved successfully")
+        |> redirect(to: ~p"/drafts")
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Article created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+      {:ok, %Article{status: 1} = article} ->
+        # notify_parent({:saved, article})
+
+        socket
+        |> put_flash(:info, "Article created successfully")
+        |> push_patch(to: socket.assigns.patch)
+
+      {:ok, %Article{status: 2}} ->
+        socket
+        |> put_flash(:info, "Article created successfully")
+        |> redirect(to: ~p"/limited")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
+        assign_form(socket, changeset)
     end
   end
 
