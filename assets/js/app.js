@@ -20,8 +20,6 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/lib/languages/markdown';
 
-import 'highlight.js/lib/languages/html';
-
 document.addEventListener('DOMContentLoaded', function() {
   // Wait for the Markdown to render before highlighting code
   setTimeout(function() {
