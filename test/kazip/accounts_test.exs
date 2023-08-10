@@ -471,12 +471,12 @@ defmodule Kazip.AccountsTest do
     test "validates password", %{account: account} do
       {:error, changeset} =
         Accounts.reset_account_password(account, %{
-          password: "not valid",
+          password: "notvalid",
           password_confirmation: "another"
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 9 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
