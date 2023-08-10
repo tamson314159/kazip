@@ -122,7 +122,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
         |> put_flash(:info, "Article saved successfully")
         |> redirect(to: ~p"/drafts")
 
-      {:ok, %Article{status: 1} = article} ->
+      {:ok, %Article{status: 1} = _article} ->
         # notify_parent({:saved, article})
 
         socket

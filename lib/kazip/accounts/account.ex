@@ -52,7 +52,7 @@ defmodule Kazip.Accounts.Account do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 9, max: 72)
+    |> validate_length(:password, min: 9, max: 72, message: "should be at least 9 character(s)")
     # Examples of additional password validation:
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
