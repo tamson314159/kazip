@@ -10,21 +10,12 @@ defmodule KazipWeb.ArticleLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    article = Articles.get_article!(id)
-
-    socket =
-      unless article.status == 0 do
-        socket
-        |> assign(:page_title, article.title)
-        |> assign(:article, article)
-      else
-        redirect(socket, to: ~p"/")
-      end
-
-    {:noreply, socket}
+    {:noreply,
+     socket
+     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:article, Articles.get_article!(id))}
   end
 
-  def parse_markdown(markdown) do
-    Earmark.as_html!(markdown)
-  end
+  defp page_title(:show), do: "Show Article"
+  defp page_title(:edit), do: "Edit Article"
 end

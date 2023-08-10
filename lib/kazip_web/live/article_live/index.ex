@@ -6,12 +6,8 @@ defmodule KazipWeb.ArticleLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, stream(socket, :articles, Articles.list_articles())}
   end
-
-  # def handle_event("filter_drafts", _params, socket) do
-  #   {:noreply, stream(socket, :articles, Articles.list_articles(:draft))}
-  # end
 
   @impl true
   def handle_params(params, _url, socket) do
@@ -34,25 +30,6 @@ defmodule KazipWeb.ArticleLive.Index do
     socket
     |> assign(:page_title, "Listing Articles")
     |> assign(:article, nil)
-    |> stream(:articles, Articles.list_articles(:public), reset: true)
-  end
-
-  defp apply_action(socket, :drafts, _params) do
-    articles = Articles.list_articles(socket.assigns.current_account.id, :draft)
-
-    socket
-    |> assign(:page_title, "Listing Drafts")
-    |> assign(:article, nil)
-    |> stream(:articles, articles)
-  end
-
-  defp apply_action(socket, :limited, _params) do
-    articles = Articles.list_articles(socket.assigns.current_account.id, :limited)
-
-    socket
-    |> assign(:page_title, "Listing Limited Articles")
-    |> assign(:article, nil)
-    |> stream(:articles, articles)
   end
 
   @impl true
@@ -66,14 +43,5 @@ defmodule KazipWeb.ArticleLive.Index do
     {:ok, _} = Articles.delete_article(article)
 
     {:noreply, stream_delete(socket, :articles, article)}
-  end
-
-  def first_character(markdown, number) do
-    markdown
-    |> Earmark.as_html!()
-    |> Floki.parse_document!()
-    |> Floki.text()
-    |> String.replace("\n", " ")
-    |> String.slice(1..number)
   end
 end

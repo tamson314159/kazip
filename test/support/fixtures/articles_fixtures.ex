@@ -13,8 +13,7 @@ defmodule Kazip.ArticlesFixtures do
       |> Enum.into(%{
         body: "some body",
         submit_date: ~D[2023-08-06],
-        title: "some title",
-        status: 1
+        title: "some title"
       })
       |> Kazip.Articles.create_article()
 
