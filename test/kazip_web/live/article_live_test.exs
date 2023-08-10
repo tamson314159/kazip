@@ -4,11 +4,8 @@ defmodule KazipWeb.ArticleLiveTest do
   import Phoenix.LiveViewTest
   import Kazip.ArticlesFixtures
 
-  # @create_attrs %{body: "some body", submit_date: "2023-08-06", title: "some title"}
-  @create_attrs %{body: "some body", title: "some title"}
-  # @update_attrs %{body: "some updated body", submit_date: "2023-08-07", title: "some updated title"}
-  @update_attrs %{body: "some updated body", title: "some updated title"}
-  # @invalid_attrs %{body: nil, submit_date: nil, title: nil}
+  @create_attrs %{body: "some body", title: "some title", status: 1}
+  @update_attrs %{body: "some updated body", title: "some updated title", status: 1}
   @invalid_attrs %{body: nil, title: nil}
 
   defp create_article(_) do
