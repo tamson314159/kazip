@@ -4,11 +4,8 @@ defmodule KazipWeb.ArticleLiveTest do
   import Phoenix.LiveViewTest
   import Kazip.ArticlesFixtures
 
-  # @create_attrs %{body: "some body", submit_date: "2023-08-06", title: "some title"}
-  @create_attrs %{body: "some body", title: "some title"}
-  # @update_attrs %{body: "some updated body", submit_date: "2023-08-07", title: "some updated title"}
-  @update_attrs %{body: "some updated body", title: "some updated title"}
-  # @invalid_attrs %{body: nil, submit_date: nil, title: nil}
+  @create_attrs %{body: "some body", title: "some title", status: 1}
+  @update_attrs %{body: "some updated body", title: "some updated title", status: 1}
   @invalid_attrs %{body: nil, title: nil}
 
   defp create_article(_) do
@@ -17,7 +14,7 @@ defmodule KazipWeb.ArticleLiveTest do
   end
 
   describe "Index" do
-    setup [:create_article]
+    setup [:register_and_log_in_account, :create_article]
 
     test "lists all articles", %{conn: conn, article: article} do
       {:ok, _index_live, html} = live(conn, ~p"/")
@@ -36,7 +33,7 @@ defmodule KazipWeb.ArticleLiveTest do
 
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Please fill in the title."
 
       assert index_live
              |> form("#article-form", article: @create_attrs)
