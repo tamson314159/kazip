@@ -30,10 +30,21 @@ defmodule Kazip.Articles do
     Repo.all(query)
   end
 
-  def list_articles(:draft) do
+  def list_articles(account_id, :draft) do
     query =
       from(a in Article,
-        where: a.status == 0
+        where: a.status == 0,
+        where: a.account_id == ^account_id
+      )
+
+    Repo.all(query)
+  end
+
+  def list_articles(account_id, :limited) do
+    query =
+      from(a in Article,
+        where: a.status == 2,
+        where: a.account_id == ^account_id
       )
 
     Repo.all(query)
