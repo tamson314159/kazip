@@ -88,18 +88,17 @@ defmodule KazipWeb.ArticleLiveTest do
       assert html =~ article.body
     end
 
-    @tag :skip
     test "updates article within modal", %{conn: conn, article: article} do
       {:ok, show_live, _html} = live(conn, ~p"/articles/#{article}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Article"
+               article.title
 
       assert_patch(show_live, ~p"/articles/#{article}/show/edit")
 
       assert show_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Please fill in the title."
 
       assert show_live
              |> form("#article-form", article: @update_attrs)
