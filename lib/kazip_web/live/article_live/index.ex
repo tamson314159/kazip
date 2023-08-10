@@ -6,7 +6,7 @@ defmodule KazipWeb.ArticleLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :articles, Articles.list_articles(:public))}
+    {:ok, socket}
   end
 
   # def handle_event("filter_drafts", _params, socket) do
@@ -34,6 +34,25 @@ defmodule KazipWeb.ArticleLive.Index do
     socket
     |> assign(:page_title, "Listing Articles")
     |> assign(:article, nil)
+    |> stream(:articles, Articles.list_articles(:public), reset: true)
+  end
+
+  defp apply_action(socket, :drafts, _params) do
+    articles = Articles.list_articles(socket.assigns.current_account.id, :draft)
+
+    socket
+    |> assign(:page_title, "Listing Drafts")
+    |> assign(:article, nil)
+    |> stream(:articles, articles)
+  end
+
+  defp apply_action(socket, :limited, _params) do
+    articles = Articles.list_articles(socket.assigns.current_account.id, :limited)
+
+    socket
+    |> assign(:page_title, "Listing Limited Articles")
+    |> assign(:article, nil)
+    |> stream(:articles, articles)
   end
 
   @impl true
