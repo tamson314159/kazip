@@ -36,7 +36,7 @@ defmodule KazipWeb.ArticleLiveTest do
 
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Please fill in the title."
 
       assert index_live
              |> form("#article-form", article: @create_attrs)
