@@ -59,11 +59,11 @@ defmodule Kazip.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_account(%{email: "not valid", password: "notvalid"})
+      {:error, changeset} = Accounts.register_account(%{email: "not valid", password: "not valid"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
-               password: ["should be at least 9 character(s)"]
+               password: ["should be at least 12 character(s)"]
              } = errors_on(changeset)
     end
 
@@ -262,12 +262,12 @@ defmodule Kazip.AccountsTest do
     test "validates password", %{account: account} do
       {:error, changeset} =
         Accounts.update_account_password(account, valid_account_password(), %{
-          password: "notvalid",
+          password: "not valid",
           password_confirmation: "another"
         })
 
       assert %{
-               password: ["should be at least 9 character(s)"],
+               password: ["should be at least 12 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
@@ -471,12 +471,12 @@ defmodule Kazip.AccountsTest do
     test "validates password", %{account: account} do
       {:error, changeset} =
         Accounts.reset_account_password(account, %{
-          password: "notvalid",
+          password: "not valid",
           password_confirmation: "another"
         })
 
       assert %{
-               password: ["should be at least 9 character(s)"],
+               password: ["should be at least 12 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end

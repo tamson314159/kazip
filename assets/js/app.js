@@ -15,19 +15,6 @@
 //     import "some-package"
 //
 
-// コードハイライト
-import hljs from 'highlight.js';
-import 'highlight.js/styles/default.css';
-import 'highlight.js/lib/languages/markdown';
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Wait for the Markdown to render before highlighting code
-  setTimeout(function() {
-    hljs.highlightAll();
-  }, 0);
-});
-
-
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
