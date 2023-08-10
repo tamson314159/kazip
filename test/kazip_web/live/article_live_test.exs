@@ -14,7 +14,7 @@ defmodule KazipWeb.ArticleLiveTest do
   end
 
   describe "Index" do
-    setup [:create_article]
+    setup [:register_and_log_in_account, :create_article]
 
     test "lists all articles", %{conn: conn, article: article} do
       {:ok, _index_live, html} = live(conn, ~p"/")
@@ -33,7 +33,7 @@ defmodule KazipWeb.ArticleLiveTest do
 
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Please fill in the title."
 
       assert index_live
              |> form("#article-form", article: @create_attrs)
