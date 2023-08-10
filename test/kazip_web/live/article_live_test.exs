@@ -46,7 +46,7 @@ defmodule KazipWeb.ArticleLiveTest do
       assert html =~ "some body"
     end
 
-    @tag :skip
+    #@tag :skip
     test "updates article in listing", %{conn: conn, article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
@@ -57,7 +57,7 @@ defmodule KazipWeb.ArticleLiveTest do
 
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+             |> render_change() =~ "Please fill in"
 
       assert index_live
              |> form("#article-form", article: @update_attrs)
