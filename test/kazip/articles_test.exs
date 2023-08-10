@@ -35,11 +35,11 @@ defmodule Kazip.ArticlesTest do
 
     test "update_article/2 with valid data updates the article" do
       article = article_fixture()
-      update_attrs = %{body: "some updated body", submit_date: ~D[2023-08-07], title: "some updated title"}
+      update_attrs = %{body: "some updated body", title: "some updated title"}
 
       assert {:ok, %Article{} = article} = Articles.update_article(article, update_attrs)
       assert article.body == "some updated body"
-      assert article.submit_date == ~D[2023-08-07]
+      assert article.submit_date == Date.utc_today()
       assert article.title == "some updated title"
     end
 

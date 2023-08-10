@@ -1,6 +1,8 @@
 <.header>
-  Article <%= @article.id %>
-  <:subtitle>This is a article record from your database.</:subtitle>
+  <div class="article_body">
+    <h1><%= @article.title %></h1>
+  </div>
+  
   <:actions>
     <.link patch={~p"/articles/#{@article}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit article</.button>
@@ -8,15 +10,23 @@
   </:actions>
 </.header>
 
-<.list>
-  <:item title="Title"><%= @article.title %></:item>
-  <:item title="Body"><%= @article.body %></:item>
-  <:item title="Submit date"><%= @article.submit_date %></:item>
-</.list>
+<div class="article_body">
+  <div class="mt-8 text-right text-zinc-700">
+    Submit date:
+    <%= @article.submit_date.year %>/<%= @article.submit_date.month %>/<%= @article.submit_date.day %>
+  </div>
+  
+   <%= @article.body |> parse_markdown |> raw %>
+</div>
 
 <.back navigate={~p"/"}>Back to articles</.back>
 
-<.modal :if={@live_action == :edit} id="article-modal" show on_cancel={JS.patch(~p"/articles/#{@article}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="article-modal"
+  show
+  on_cancel={JS.patch(~p"/articles/#{@article}")}
+>
   <.live_component
     module={KazipWeb.ArticleLive.FormComponent}
     id={@article.id}
