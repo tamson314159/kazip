@@ -87,7 +87,7 @@ defmodule KazipWeb.ArticleLiveTest do
     test "displays article", %{conn: conn, article: article} do
       {:ok, _show_live, html} = live(conn, ~p"/articles/#{article}")
 
-      assert html =~ "Back to articles"
+      assert html =~ article.title
       assert html =~ article.body
     end
 
