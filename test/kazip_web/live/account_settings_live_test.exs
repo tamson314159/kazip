@@ -145,14 +145,14 @@ defmodule KazipWeb.AccountSettingsLiveTest do
         |> form("#password_form", %{
           "current_password" => "invalid",
           "account" => %{
-            "password" => "too short",
+            "password" => "tooshort",
             "password_confirmation" => "does not match"
           }
         })
         |> render_submit()
 
       assert result =~ "Change Password"
-      assert result =~ "should be at least 12 character(s)"
+      assert result =~ "should be at least 9 character(s)"
       assert result =~ "does not match password"
       assert result =~ "is not valid"
     end
