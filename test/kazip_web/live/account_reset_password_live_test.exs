@@ -43,7 +43,7 @@ defmodule KazipWeb.AccountResetPasswordLiveTest do
           account: %{"password" => "secret12", "confirmation_password" => "secret123456"}
         )
 
-      assert result =~ "should be at least 12 character"
+      assert result =~ "should be at least 9 character"
       assert result =~ "does not match password"
     end
   end
