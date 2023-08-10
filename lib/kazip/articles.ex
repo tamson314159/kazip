@@ -21,6 +21,35 @@ defmodule Kazip.Articles do
     Repo.all(Article)
   end
 
+  def list_articles(:public) do
+    query =
+      from(a in Article,
+        where: a.status == 1
+      )
+
+    Repo.all(query)
+  end
+
+  def list_articles(account_id, :draft) do
+    query =
+      from(a in Article,
+        where: a.status == 0,
+        where: a.account_id == ^account_id
+      )
+
+    Repo.all(query)
+  end
+
+  def list_articles(account_id, :limited) do
+    query =
+      from(a in Article,
+        where: a.status == 2,
+        where: a.account_id == ^account_id
+      )
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single article.
 
@@ -50,7 +79,7 @@ defmodule Kazip.Articles do
 
   """
   def create_article(attrs \\ %{}) do
-    %Article{submit_date: Date.utc_today()}
+    %Article{}
     |> Article.changeset(attrs)
     |> Repo.insert()
   end
