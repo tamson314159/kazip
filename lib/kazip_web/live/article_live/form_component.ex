@@ -54,7 +54,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
         <div class="mb-3">
           <h1><%= @form.params["title"] || @article.title || "" %></h1>
         </div>
-         <%= (@form.params["body"] || @article.body || "") |> parse_markdown() |> IO.inspect() |> raw() %>
+         <%= (@form.params["body"] || @article.body || "") |> parse_markdown() |> raw() %>
       </div>
     </div>
     """
@@ -147,6 +147,6 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
   def parse_markdown(markdown) do
-    Earmark.as_html!(markdown)
+    Earmark.as_html!(markdown, compact_output: true)
   end
 end

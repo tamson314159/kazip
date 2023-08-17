@@ -56,12 +56,12 @@ defmodule KazipWeb.ArticleLiveTest do
              |> render_change() =~ "Please fill in the title."
 
       index_live
-      |> form("#article-form", article: %{body: "# h1", title: "some title", status: 1})
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
       |> render_change()
 
       assert index_live
              |> element("#preview", "Preview")
-             |> render_click() =~ "<h1>\nh1</h1>"
+             |> render_click() =~ "<h2>section</h2>"
 
       assert index_live
              |> form("#article-form", article: @create_attrs)
@@ -85,6 +85,14 @@ defmodule KazipWeb.ArticleLiveTest do
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
              |> render_change() =~ "Please fill in"
+
+      index_live
+             |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+             |> render_change()
+
+      assert index_live
+             |> element("#preview", "Preview")
+             |> render_click() =~ "<h2>section</h2>"
 
       assert index_live
              |> form("#article-form", article: @update_attrs)
