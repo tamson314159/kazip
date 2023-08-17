@@ -34,6 +34,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
       </.simple_form>
        <%!-- ダークモードに対応する前の一時的なコード --%>
       <label
+        id="preview"
         class="relative inline-flex items-center cursor-pointer mt-2"
         phx-target={@myself}
         phx-click="preview"
@@ -51,7 +52,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
       </label> --%>
       <div :if={@preview} class="article_body">
         <div class="mb-3">
-          <%= ("# " <> (@form.params["title"] || @article.title || "")) |> parse_markdown() |> raw() %>
+          <h1><%= @form.params["title"] || @article.title || "" %></h1>
         </div>
          <%= (@form.params["body"] || @article.body || "") |> parse_markdown() |> raw() %>
       </div>
@@ -146,6 +147,6 @@ defmodule KazipWeb.ArticleLive.FormComponent do
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 
   def parse_markdown(markdown) do
-    Earmark.as_html!(markdown)
+    Earmark.as_html!(markdown, compact_output: true)
   end
 end

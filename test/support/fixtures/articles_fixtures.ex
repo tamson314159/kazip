@@ -7,14 +7,39 @@ defmodule Kazip.ArticlesFixtures do
   @doc """
   Generate a article.
   """
-  def article_fixture(attrs \\ %{}) do
+  def draft_article_fixture(attrs \\ %{}) do
     {:ok, article} =
       attrs
       |> Enum.into(%{
-        body: "some body",
-        submit_date: ~D[2023-08-06],
-        title: "some title",
+        body: "draft body",
+        title: "draft title",
+        status: 0
+      })
+      |> Kazip.Articles.create_article()
+
+    article
+  end
+
+  def public_article_fixture(attrs \\ %{}) do
+    {:ok, article} =
+      attrs
+      |> Enum.into(%{
+        body: "public body",
+        title: "public title",
         status: 1
+      })
+      |> Kazip.Articles.create_article()
+
+    article
+  end
+
+  def limited_article_fixture(attrs \\ %{}) do
+    {:ok, article} =
+      attrs
+      |> Enum.into(%{
+        body: "limited body",
+        title: "limited title",
+        status: 2
       })
       |> Kazip.Articles.create_article()
 
