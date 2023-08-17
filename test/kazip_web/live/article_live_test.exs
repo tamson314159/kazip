@@ -3,23 +3,43 @@ defmodule KazipWeb.ArticleLiveTest do
 
   import Phoenix.LiveViewTest
   import Kazip.ArticlesFixtures
+  import Kazip.AccountsFixtures
 
   @create_attrs %{body: "some body", title: "some title", status: 1}
   @update_attrs %{body: "some updated body", title: "some updated title", status: 1}
-  @invalid_attrs %{body: nil, title: nil}
+  @invalid_attrs %{body: nil, title: nil, status: 0}
 
-  defp create_article(_) do
-    article = article_fixture()
-    %{article: article}
+  defp create_article(%{account: account}) do
+    other_account = account_fixture()
+    %{
+      draft_article: draft_article_fixture(%{account_id: account.id}),
+      public_article: public_article_fixture(%{account_id: account.id}),
+      limited_article: limited_article_fixture(%{account_id: account.id}),
+      other_draft_article: draft_article_fixture(%{account_id: other_account.id})
+    }
   end
 
   describe "Index" do
-    setup [:create_article, :register_and_log_in_account]
+    setup [:register_and_log_in_account, :create_article]
 
-    test "lists all articles", %{conn: conn, article: article} do
+    test "lists public articles", %{conn: conn, public_article: article} do
       {:ok, _index_live, html} = live(conn, ~p"/")
 
       assert html =~ "Listing Articles"
+      assert html =~ article.body
+    end
+
+    test "lists draft articles", %{conn: conn, draft_article: article} do
+      {:ok, _index_live, html} = live(conn, ~p"/drafts")
+
+      assert html =~ "Listing Drafts"
+      assert html =~ article.body
+    end
+
+    test "lists limited articles", %{conn: conn, limited_article: article} do
+      {:ok, _index_live, html} = live(conn, ~p"/limited")
+
+      assert html =~ "Listing Limited Articles"
       assert html =~ article.body
     end
 
@@ -35,6 +55,14 @@ defmodule KazipWeb.ArticleLiveTest do
              |> form("#article-form", article: @invalid_attrs)
              |> render_change() =~ "Please fill in the title."
 
+      index_live
+      |> form("#article-form", article: %{body: "# h1", title: "some title", status: 1})
+      |> render_change()
+
+      assert index_live
+             |> element("#preview", "Preview")
+             |> render_click() =~ "<h1>\nh1</h1>"
+
       assert index_live
              |> form("#article-form", article: @create_attrs)
              |> render_submit()
@@ -46,8 +74,7 @@ defmodule KazipWeb.ArticleLiveTest do
       assert html =~ "some body"
     end
 
-    #@tag :skip
-    test "updates article in listing", %{conn: conn, article: article} do
+    test "updates article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
       assert index_live |> element("#articles-#{article.id} a", "Edit") |> render_click() =~
@@ -70,7 +97,7 @@ defmodule KazipWeb.ArticleLiveTest do
       assert html =~ "some updated body"
     end
 
-    test "deletes article in listing", %{conn: conn, article: article} do
+    test "deletes article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
       assert index_live |> element("#articles-#{article.id} a", "Delete") |> render_click()
@@ -79,16 +106,20 @@ defmodule KazipWeb.ArticleLiveTest do
   end
 
   describe "Show" do
-    setup [:create_article]
+    setup [:register_and_log_in_account, :create_article]
 
-    test "displays article", %{conn: conn, article: article} do
+    test "displays article", %{conn: conn, public_article: article} do
       {:ok, _show_live, html} = live(conn, ~p"/articles/#{article}")
 
       assert html =~ article.title
       assert html =~ article.body
     end
 
-    test "updates article within modal", %{conn: conn, article: article} do
+    test "displays other drafts", %{conn: conn, other_draft_article: article} do
+      assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/articles/#{article}")
+    end
+
+    test "updates article within modal", %{conn: conn, public_article: article} do
       {:ok, show_live, _html} = live(conn, ~p"/articles/#{article}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~

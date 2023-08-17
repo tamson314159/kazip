@@ -34,6 +34,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
       </.simple_form>
        <%!-- ダークモードに対応する前の一時的なコード --%>
       <label
+        id="preview"
         class="relative inline-flex items-center cursor-pointer mt-2"
         phx-target={@myself}
         phx-click="preview"
@@ -51,9 +52,9 @@ defmodule KazipWeb.ArticleLive.FormComponent do
       </label> --%>
       <div :if={@preview} class="article_body">
         <div class="mb-3">
-          <%= ("# " <> (@form.params["title"] || @article.title || "")) |> parse_markdown() |> raw() %>
+          <h1><%= @form.params["title"] || @article.title || "" %></h1>
         </div>
-         <%= (@form.params["body"] || @article.body || "") |> parse_markdown() |> raw() %>
+         <%= (@form.params["body"] || @article.body || "") |> parse_markdown() |> IO.inspect() |> raw() %>
       </div>
     </div>
     """
