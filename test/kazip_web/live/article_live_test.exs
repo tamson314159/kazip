@@ -15,7 +15,8 @@ defmodule KazipWeb.ArticleLiveTest do
       draft_article: draft_article_fixture(%{account_id: account.id}),
       public_article: public_article_fixture(%{account_id: account.id}),
       limited_article: limited_article_fixture(%{account_id: account.id}),
-      other_draft_article: draft_article_fixture(%{account_id: other_account.id})
+      other_draft_article: draft_article_fixture(%{account_id: other_account.id}),
+      other_public_article: public_article_fixture(%{account_id: other_account.id})
     }
   end
 
@@ -105,6 +106,10 @@ defmodule KazipWeb.ArticleLiveTest do
       assert html =~ "some updated body"
     end
 
+    test "updates other article in listing", %{conn: conn, other_public_article: article} do
+      assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/articles/#{article.id}/edit")
+    end
+
     test "deletes article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
@@ -117,7 +122,7 @@ defmodule KazipWeb.ArticleLiveTest do
     setup [:register_and_log_in_account, :create_article]
 
     test "displays article", %{conn: conn, public_article: article} do
-      {:ok, _show_live, html} = live(conn, ~p"/articles/#{article}")
+      {:ok, show_live, html} = live(conn, ~p"/articles/#{article}")
 
       assert html =~ article.title
       assert html =~ article.body
@@ -148,6 +153,10 @@ defmodule KazipWeb.ArticleLiveTest do
       html = render(show_live)
       assert html =~ "Article updated successfully"
       assert html =~ "some updated body"
+    end
+
+    test "updates other article within modal", %{conn: conn, other_public_article: article} do
+      assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/articles/#{article.id}/show/edit")
     end
   end
 

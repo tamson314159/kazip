@@ -19,9 +19,15 @@ defmodule KazipWeb.ArticleLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Article")
-    |> assign(:article, Articles.get_article!(id))
+    article = Articles.get_article!(id)
+    current_account_id = socket.assigns.current_account.id
+    if (current_account_id == article.account_id) do
+      socket
+        |> assign(:page_title, "Edit Article")
+        |> assign(:article, Articles.get_article!(id))
+    else
+      redirect(socket, to: ~p"/")
+    end
   end
 
   defp apply_action(socket, :new, _params) do
