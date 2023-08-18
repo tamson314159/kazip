@@ -7,7 +7,7 @@ defmodule Kazip.Repo.Migrations.CreateArticles do
       add :body, :text
       add :submit_date, :date
       add :status, :integer, null: false
-      add :account_id, references(:accounts, on_delete: :nothing)
+      add :account_id, references(:accounts, on_delete: :delete_all)
 
       timestamps()
     end

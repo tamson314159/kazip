@@ -3,6 +3,7 @@ defmodule Kazip.Articles.Article do
   import Ecto.Changeset
 
   alias Kazip.Accounts.Account
+  alias Kazip.Articles.Category
 
   schema "articles" do
     field :body, :string
@@ -10,6 +11,7 @@ defmodule Kazip.Articles.Article do
     field :title, :string
     field :status, :integer, default: 0
     belongs_to :account, Account
+    belongs_to :category, Category
 
     timestamps()
   end
@@ -17,7 +19,7 @@ defmodule Kazip.Articles.Article do
   @doc false
   def changeset(article, attrs) do
     article
-    |> cast(attrs, [:title, :body, :submit_date, :status, :account_id])
+    |> cast(attrs, [:title, :body, :submit_date, :status, :account_id, :category_id])
     |> validate_articles()
   end
 

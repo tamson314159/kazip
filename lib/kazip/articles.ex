@@ -24,7 +24,8 @@ defmodule Kazip.Articles do
   def list_articles(:public) do
     query =
       from(a in Article,
-        where: a.status == 1
+        where: a.status == 1,
+        preload: [:category]
       )
 
     Repo.all(query)
@@ -34,7 +35,8 @@ defmodule Kazip.Articles do
     query =
       from(a in Article,
         where: a.status == 0,
-        where: a.account_id == ^account_id
+        where: a.account_id == ^account_id,
+        preload: [:category]
       )
 
     Repo.all(query)
@@ -44,7 +46,8 @@ defmodule Kazip.Articles do
     query =
       from(a in Article,
         where: a.status == 2,
-        where: a.account_id == ^account_id
+        where: a.account_id == ^account_id,
+        preload: [:category]
       )
 
     Repo.all(query)

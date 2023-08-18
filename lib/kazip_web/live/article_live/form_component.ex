@@ -28,6 +28,12 @@ defmodule KazipWeb.ArticleLive.FormComponent do
           label="Public Type"
           options={[draft: 0, public: 1, limited: 2]}
         />
+        <.input
+          field={@form[:category_id]}
+          type="select"
+          label="Category"
+          options={[家事全般: 1, 掃除: 2, 洗濯: 3, 料理: 4, 片付け: 5, 育児: 6, 園芸: 7, 買い物: 8, その他: 9]}
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Article</.button>
         </:actions>
