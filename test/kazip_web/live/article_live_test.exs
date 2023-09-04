@@ -122,7 +122,7 @@ defmodule KazipWeb.ArticleLiveTest do
     setup [:register_and_log_in_account, :create_article]
 
     test "displays article", %{conn: conn, public_article: article} do
-      {:ok, show_live, html} = live(conn, ~p"/articles/#{article}")
+      {:ok, _show_live, html} = live(conn, ~p"/articles/#{article}")
 
       assert html =~ article.title
       assert html =~ article.body
