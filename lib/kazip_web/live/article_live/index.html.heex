@@ -7,12 +7,25 @@
   </:actions>
 </.header>
 
+<div :if={@live_action in [:index]}>
+  <.simple_form for={@form} phx-change="search_by_category">
+    <.input
+      field={@form["category_id"]}
+      type="select"
+      label="Search by Category"
+      options={[家事全般: 1, 掃除: 2, 洗濯: 3, 料理: 4, 片付け: 5, 育児: 6, 園芸: 7, 買い物: 8, その他: 9]}
+    />
+  </.simple_form>
+</div>
+
 <.table
   id="articles"
   rows={@streams.articles}
   row_click={fn {_id, article} -> JS.navigate(~p"/articles/#{article}") end}
 >
   <:col :let={{_id, article}} label="Title"><%= article.title %></:col>
+
+  <:col :let={{_id, article}} label="Category"><%= article.category.name %></:col>
   
   <:col :let={{_id, article}} label="Body"><%= first_character(article.body || "", 30) %></:col>
   

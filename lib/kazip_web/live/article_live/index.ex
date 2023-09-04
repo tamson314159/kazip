@@ -41,6 +41,7 @@ defmodule KazipWeb.ArticleLive.Index do
     |> assign(:page_title, "Listing Articles")
     |> assign(:article, nil)
     |> stream(:articles, Articles.list_articles(:public), reset: true)
+    |> assign_form()
   end
 
   defp apply_action(socket, :drafts, _params) do
@@ -61,6 +62,10 @@ defmodule KazipWeb.ArticleLive.Index do
     |> stream(:articles, articles)
   end
 
+  defp assign_form(socket) do
+    assign(socket, :form, to_form(%{}, as: "search_by_category"))
+  end
+
   @impl true
   def handle_info({KazipWeb.ArticleLive.FormComponent, {:saved, article}}, socket) do
     {:noreply, stream_insert(socket, :articles, article)}
@@ -78,6 +83,19 @@ defmodule KazipWeb.ArticleLive.Index do
     else
       {:noreply, redirect(socket, to: ~p"/")}
     end
+  end
+
+  def handle_event("search_by_category", %{"search_by_category" => %{"category_id" => category_id}}, socket) do
+    category = Articles.get_category!(category_id)
+    articles = Articles.list_articles_by_category(category)
+
+    socket =
+      socket
+      |> assign(:article, nil)
+      |> stream(:articles, articles, reset: true)
+      |> assign_form()
+
+    {:noreply, socket}
   end
 
   def first_character(markdown, number) do

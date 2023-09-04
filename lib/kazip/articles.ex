@@ -7,6 +7,7 @@ defmodule Kazip.Articles do
   alias Kazip.Repo
 
   alias Kazip.Articles.Article
+  alias Kazip.Articles.Category
 
   @doc """
   Returns the list of articles.
@@ -21,10 +22,26 @@ defmodule Kazip.Articles do
     Repo.all(Article)
   end
 
+  def list_categories do
+    Repo.all(Category)
+  end
+
   def list_articles(:public) do
     query =
       from(a in Article,
-        where: a.status == 1
+        where: a.status == 1,
+        preload: [:category]
+      )
+
+    Repo.all(query)
+  end
+
+  def list_articles_by_category(category) do
+    query =
+      from(a in Article,
+        where: a.status == 1,
+        where: a.category_id == ^category.id,
+        preload: [:category]
       )
 
     Repo.all(query)
@@ -34,7 +51,8 @@ defmodule Kazip.Articles do
     query =
       from(a in Article,
         where: a.status == 0,
-        where: a.account_id == ^account_id
+        where: a.account_id == ^account_id,
+        preload: [:category]
       )
 
     Repo.all(query)
@@ -44,7 +62,8 @@ defmodule Kazip.Articles do
     query =
       from(a in Article,
         where: a.status == 2,
-        where: a.account_id == ^account_id
+        where: a.account_id == ^account_id,
+        preload: [:category]
       )
 
     Repo.all(query)
@@ -65,6 +84,8 @@ defmodule Kazip.Articles do
 
   """
   def get_article!(id), do: Repo.get!(Article, id)
+
+  def get_category!(id), do: Repo.get!(Category, id)
 
   @doc """
   Creates a article.
