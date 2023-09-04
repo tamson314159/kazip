@@ -11,11 +11,13 @@ defmodule KazipWeb.ArticleLiveTest do
 
   defp create_article(%{account: account}) do
     other_account = account_fixture()
+
     %{
       draft_article: draft_article_fixture(%{account_id: account.id}),
       public_article: public_article_fixture(%{account_id: account.id}),
       limited_article: limited_article_fixture(%{account_id: account.id}),
-      other_draft_article: draft_article_fixture(%{account_id: other_account.id})
+      other_draft_article: draft_article_fixture(%{account_id: other_account.id}),
+      other_public_article: public_article_fixture(%{account_id: other_account.id})
     }
   end
 
@@ -87,8 +89,8 @@ defmodule KazipWeb.ArticleLiveTest do
              |> render_change() =~ "Please fill in"
 
       index_live
-             |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
-             |> render_change()
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> render_change()
 
       assert index_live
              |> element("#preview", "Preview")
@@ -105,11 +107,23 @@ defmodule KazipWeb.ArticleLiveTest do
       assert html =~ "some updated body"
     end
 
+    test "updates other article in listing", %{conn: conn, other_public_article: article} do
+      {:ok, index_live, _html} = live(conn, ~p"/")
+      refute has_element?(index_live, "#articles-#{article.id}", "Edit")
+
+      assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/articles/#{article.id}/edit")
+    end
+
     test "deletes article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
       assert index_live |> element("#articles-#{article.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#articles-#{article.id}")
+    end
+
+    test "delete other article in listing", %{conn: conn, other_public_article: article} do
+      {:ok, index_live, _html} = live(conn, ~p"/")
+      refute has_element?(index_live, "#articles-#{article.id}", "Edit")
     end
   end
 
@@ -149,6 +163,12 @@ defmodule KazipWeb.ArticleLiveTest do
       assert html =~ "Article updated successfully"
       assert html =~ "some updated body"
     end
+
+    test "updates other article within modal", %{conn: conn, other_public_article: article} do
+      {:ok, show_live, _html} = live(conn, ~p"/articles/#{article}")
+      refute has_element?(show_live, "a", "Edit")
+      assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/articles/#{article.id}/show/edit")
+    end
   end
 
   @markdown """
@@ -181,8 +201,8 @@ defmodule KazipWeb.ArticleLiveTest do
 
   describe "first_character/1" do
     test "returns string of length 30" do
-      assert KazipWeb.ArticleLive.Index.first_character(@markdown, 30)
-        == "目標を明確にする 短期的な目標と長期的な目標を設定しましょう"
+      assert KazipWeb.ArticleLive.Index.first_character(@markdown, 30) ==
+               "目標を明確にする 短期的な目標と長期的な目標を設定しましょう"
     end
   end
 end
