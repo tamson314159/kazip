@@ -165,6 +165,8 @@ defmodule KazipWeb.ArticleLiveTest do
     end
 
     test "updates other article within modal", %{conn: conn, other_public_article: article} do
+      {:ok, show_live, _html} = live(conn, ~p"/articles/#{article}")
+      refute has_element?(show_live, "a", "Edit")
       assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/articles/#{article.id}/show/edit")
     end
   end

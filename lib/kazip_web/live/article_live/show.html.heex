@@ -3,7 +3,7 @@
     <h1><%= @article.title %></h1>
   </div>
   
-  <:actions>
+  <:actions :if={@current_account && @current_account.id == @article.account_id}>
     <.link patch={~p"/articles/#{@article}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit article</.button>
     </.link>
