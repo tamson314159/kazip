@@ -11,6 +11,7 @@ defmodule KazipWeb.ArticleLiveTest do
 
   defp create_article(%{account: account}) do
     other_account = account_fixture()
+
     %{
       draft_article: draft_article_fixture(%{account_id: account.id}),
       public_article: public_article_fixture(%{account_id: account.id}),
@@ -88,8 +89,8 @@ defmodule KazipWeb.ArticleLiveTest do
              |> render_change() =~ "Please fill in"
 
       index_live
-             |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
-             |> render_change()
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> render_change()
 
       assert index_live
              |> element("#preview", "Preview")
@@ -115,6 +116,16 @@ defmodule KazipWeb.ArticleLiveTest do
 
       assert index_live |> element("#articles-#{article.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#articles-#{article.id}")
+    end
+
+    test "delete other article in listing", %{conn: conn, other_public_article: article} do
+      {:ok, index_live, _html} = live(conn, ~p"/")
+
+      assert {:error, {:redirect, %{to: "/"}}} =
+               index_live |> element("#articles-#{article.id} a", "Delete") |> render_click()
+
+      {:ok, index_live_after_redirect, _html} = live(conn, ~p"/")
+      assert has_element?(index_live_after_redirect, "#articles-#{article.id}")
     end
   end
 
@@ -190,8 +201,8 @@ defmodule KazipWeb.ArticleLiveTest do
 
   describe "first_character/1" do
     test "returns string of length 30" do
-      assert KazipWeb.ArticleLive.Index.first_character(@markdown, 30)
-        == "目標を明確にする 短期的な目標と長期的な目標を設定しましょう"
+      assert KazipWeb.ArticleLive.Index.first_character(@markdown, 30) ==
+               "目標を明確にする 短期的な目標と長期的な目標を設定しましょう"
     end
   end
 end

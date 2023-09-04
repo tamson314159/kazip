@@ -69,9 +69,15 @@ defmodule KazipWeb.ArticleLive.Index do
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     article = Articles.get_article!(id)
-    {:ok, _} = Articles.delete_article(article)
+    current_account = socket.assigns.current_account
 
-    {:noreply, stream_delete(socket, :articles, article)}
+    if current_account && current_account.id == article.account_id do
+      {:ok, _} = Articles.delete_article(article)
+
+      {:noreply, stream_delete(socket, :articles, article)}
+    else
+      {:noreply, redirect(socket, to: ~p"/")}
+    end
   end
 
   def first_character(markdown, number) do
