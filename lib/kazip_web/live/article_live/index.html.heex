@@ -16,17 +16,26 @@
   
   <:col :let={{_id, article}} label="Body"><%= first_character(article.body || "", 30) %></:col>
   
-  <:col :if={@live_action != :drafts} :let={{_id, article}} label="Submit date"><%= article.submit_date %></:col>
+  <:col :let={{_id, article}} :if={@live_action != :drafts} label="Submit date">
+    <%= article.submit_date %>
+  </:col>
   
   <:action :let={{_id, article}}>
     <div class="sr-only">
       <.link navigate={~p"/articles/#{article}"}>Show</.link>
     </div>
-     <.link patch={~p"/articles/#{article}/edit"}>Edit</.link>
+    
+    <.link
+      :if={@current_account && @current_account.id == article.account_id}
+      patch={~p"/articles/#{article}/edit"}
+    >
+      Edit
+    </.link>
   </:action>
   
   <:action :let={{id, article}}>
     <.link
+      :if={@current_account && @current_account.id == article.account_id}
       phx-click={JS.push("delete", value: %{id: article.id}) |> hide("##{id}")}
       data-confirm="Are you sure?"
     >

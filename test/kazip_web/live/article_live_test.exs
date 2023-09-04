@@ -108,6 +108,9 @@ defmodule KazipWeb.ArticleLiveTest do
     end
 
     test "updates other article in listing", %{conn: conn, other_public_article: article} do
+      {:ok, index_live, _html} = live(conn, ~p"/")
+      refute has_element?(index_live, "#articles-#{article.id}", "Edit")
+
       assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/articles/#{article.id}/edit")
     end
 
@@ -120,12 +123,7 @@ defmodule KazipWeb.ArticleLiveTest do
 
     test "delete other article in listing", %{conn: conn, other_public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
-
-      assert {:error, {:redirect, %{to: "/"}}} =
-               index_live |> element("#articles-#{article.id} a", "Delete") |> render_click()
-
-      {:ok, index_live_after_redirect, _html} = live(conn, ~p"/")
-      assert has_element?(index_live_after_redirect, "#articles-#{article.id}")
+      refute has_element?(index_live, "#articles-#{article.id}", "Edit")
     end
   end
 
