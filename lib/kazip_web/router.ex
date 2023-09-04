@@ -86,14 +86,14 @@ defmodule KazipWeb.Router do
   scope "/", KazipWeb do
     pipe_through [:browser]
 
-    live "/articles/:id", ArticleLive.Show, :show
-
     delete "/accounts/log_out", AccountSessionController, :delete
 
     live_session :current_account,
       on_mount: [{KazipWeb.AccountAuth, :mount_current_account}] do
       live "/accounts/confirm/:token", AccountConfirmationLive, :edit
       live "/accounts/confirm", AccountConfirmationInstructionsLive, :new
+
+      live "/articles/:id", ArticleLive.Show, :show
     end
   end
 end

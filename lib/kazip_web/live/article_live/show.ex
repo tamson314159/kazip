@@ -9,7 +9,8 @@ defmodule KazipWeb.ArticleLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(params, _, socket) do
+    id = params["id"]
     article = Articles.get_article!(id)
 
     socket =
@@ -21,7 +22,21 @@ defmodule KazipWeb.ArticleLive.Show do
         redirect(socket, to: ~p"/")
       end
 
-    {:noreply, socket}
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :show, _params), do: socket
+
+  defp apply_action(socket, :edit, %{"id" => id}) do
+    article = Articles.get_article!(id)
+    current_account_id = socket.assigns.current_account.id
+    if (current_account_id == article.account_id) do
+      socket
+        |> assign(:page_title, "Edit Article")
+        |> assign(:article, Articles.get_article!(id))
+    else
+      redirect(socket, to: ~p"/")
+    end
   end
 
   def parse_markdown(markdown) do

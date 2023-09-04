@@ -19,9 +19,15 @@ defmodule KazipWeb.ArticleLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Article")
-    |> assign(:article, Articles.get_article!(id))
+    article = Articles.get_article!(id)
+    current_account_id = socket.assigns.current_account.id
+    if (current_account_id == article.account_id) do
+      socket
+        |> assign(:page_title, "Edit Article")
+        |> assign(:article, Articles.get_article!(id))
+    else
+      redirect(socket, to: ~p"/")
+    end
   end
 
   defp apply_action(socket, :new, _params) do
@@ -63,9 +69,15 @@ defmodule KazipWeb.ArticleLive.Index do
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     article = Articles.get_article!(id)
-    {:ok, _} = Articles.delete_article(article)
+    current_account = socket.assigns.current_account
 
-    {:noreply, stream_delete(socket, :articles, article)}
+    if current_account && current_account.id == article.account_id do
+      {:ok, _} = Articles.delete_article(article)
+
+      {:noreply, stream_delete(socket, :articles, article)}
+    else
+      {:noreply, redirect(socket, to: ~p"/")}
+    end
   end
 
   def first_character(markdown, number) do
