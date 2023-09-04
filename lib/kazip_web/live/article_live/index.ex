@@ -86,8 +86,15 @@ defmodule KazipWeb.ArticleLive.Index do
   end
 
   def handle_event("search_by_category", %{"search_by_category" => %{"category_id" => category_id}}, socket) do
-    category = Articles.get_category!(category_id)
-    articles = Articles.list_articles_by_category(category)
+
+    articles =
+      case category_id do
+        "0" ->
+          Articles.list_articles(:public)
+        _ ->
+          category = Articles.get_category!(category_id)
+          Articles.list_articles_by_category(category)
+      end
 
     socket =
       socket
