@@ -75,13 +75,12 @@ defmodule KazipWeb.ArticleLive.Index do
 
   def handle_event("search_by_category", %{"search_by_category" => %{"category_id" => category_id}}, socket) do
     category = Articles.get_category!(category_id)
-    IO.puts("\n\n\nxxxxxxxx\n\n\n")
     articles = Articles.list_articles_by_category(category)
 
     socket =
       socket
       |> assign(:article, nil)
-      |> stream(:articles, articles)
+      |> stream(:articles, articles, reset: true)
       |> assign_form()
 
     {:noreply, socket}
