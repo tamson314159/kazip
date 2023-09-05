@@ -5,18 +5,19 @@ defmodule KazipWeb.ArticleLiveTest do
   import Kazip.ArticlesFixtures
   import Kazip.AccountsFixtures
 
-  @create_attrs %{body: "some body", title: "some title", status: 1, category_id: 1}
-  @update_attrs %{body: "some updated body", title: "some updated title", status: 1}
+  @create_attrs %{body: "some body", title: "some title", status: 1}
+  @update_attrs %{body: "some updated body", title: "some updated title", status: 1, category_id: 1}
   @invalid_attrs %{body: nil, title: nil, status: 0}
 
   defp create_article(%{account: account}) do
+    #category = category_fixture()
     other_account = account_fixture()
     %{
-      draft_article: draft_article_fixture(%{account_id: account.id}),
-      public_article: public_article_fixture(%{account_id: account.id}),
-      limited_article: limited_article_fixture(%{account_id: account.id}),
-      other_draft_article: draft_article_fixture(%{account_id: other_account.id}),
-      other_public_article: public_article_fixture(%{account_id: other_account.id})
+      draft_article: draft_article_fixture(%{account_id: account.id, category_id: 1}),
+      public_article: public_article_fixture(%{account_id: account.id, category_id: 1}),
+      limited_article: limited_article_fixture(%{account_id: account.id, category_id: 1}),
+      other_draft_article: draft_article_fixture(%{account_id: other_account.id, category_id: 1}),
+      other_public_article: public_article_fixture(%{account_id: other_account.id, category_id: 1})
     }
   end
 
@@ -57,7 +58,7 @@ defmodule KazipWeb.ArticleLiveTest do
              |> render_change() =~ "タイトルを記入してください。"
 
       index_live
-      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1, category_id: 1})
       |> render_change()
 
       assert index_live
@@ -88,7 +89,7 @@ defmodule KazipWeb.ArticleLiveTest do
              |> render_change() =~ "を記入してください"
 
       index_live
-      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1, category_id: 1})
       |> render_change()
 
       assert index_live

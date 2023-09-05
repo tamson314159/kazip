@@ -15,8 +15,7 @@ defmodule Kazip.ArticlesFixtures do
       |> Enum.into(%{
         body: "draft body",
         title: "draft title",
-        status: 0,
-        category_id: 1
+        status: 0
       })
       |> Kazip.Articles.create_article()
 
@@ -30,8 +29,7 @@ defmodule Kazip.ArticlesFixtures do
       |> Enum.into(%{
         body: "public body",
         title: "public title",
-        status: 1,
-        category_id: 1
+        status: 1
       })
       |> Kazip.Articles.create_article()
 
@@ -45,8 +43,7 @@ defmodule Kazip.ArticlesFixtures do
       |> Enum.into(%{
         body: "limited body",
         title: "limited title",
-        status: 2,
-        category_id: 1
+        status: 2
       })
       |> Kazip.Articles.create_article()
 
@@ -55,13 +52,13 @@ defmodule Kazip.ArticlesFixtures do
   end
 
   def category_fixture(attrs \\ %{}) do
-    {:ok, article} =
-      attrs
-      |> Enum.into(%{
-        name: "category name"
-      })
-      |> Kazip.Articles.create_category()
+    {:ok, category} =
+    attrs
+    |> Enum.into(%{
+      name: "category name"
+    })
+    |> Kazip.Articles.create_category()
 
-    article
+    category
   end
 end

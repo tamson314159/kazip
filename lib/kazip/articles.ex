@@ -20,6 +20,7 @@ defmodule Kazip.Articles do
   """
   def list_articles do
     Repo.all(Article)
+    |> Repo.preload(:category)
   end
 
   def list_categories do
