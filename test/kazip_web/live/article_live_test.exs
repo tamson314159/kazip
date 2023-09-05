@@ -6,18 +6,18 @@ defmodule KazipWeb.ArticleLiveTest do
   import Kazip.AccountsFixtures
 
   @create_attrs %{body: "some body", title: "some title", status: 1}
-  @update_attrs %{body: "some updated body", title: "some updated title", status: 1}
+  @update_attrs %{body: "some updated body", title: "some updated title", status: 1, category_id: 1}
   @invalid_attrs %{body: nil, title: nil, status: 0}
 
   defp create_article(%{account: account}) do
+    #category = category_fixture()
     other_account = account_fixture()
-
     %{
-      draft_article: draft_article_fixture(%{account_id: account.id}),
-      public_article: public_article_fixture(%{account_id: account.id}),
-      limited_article: limited_article_fixture(%{account_id: account.id}),
-      other_draft_article: draft_article_fixture(%{account_id: other_account.id}),
-      other_public_article: public_article_fixture(%{account_id: other_account.id})
+      draft_article: draft_article_fixture(%{account_id: account.id, category_id: 1}),
+      public_article: public_article_fixture(%{account_id: account.id, category_id: 1}),
+      limited_article: limited_article_fixture(%{account_id: account.id, category_id: 1}),
+      other_draft_article: draft_article_fixture(%{account_id: other_account.id, category_id: 1}),
+      other_public_article: public_article_fixture(%{account_id: other_account.id, category_id: 1})
     }
   end
 
@@ -48,8 +48,8 @@ defmodule KazipWeb.ArticleLiveTest do
     test "saves new article", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
-      assert index_live |> element("a", "New Article") |> render_click() =~
-               "New Article"
+      assert index_live |> element("a", "新しい記事") |> render_click() =~
+               "新しい記事"
 
       assert_patch(index_live, ~p"/articles/new")
 
@@ -58,11 +58,11 @@ defmodule KazipWeb.ArticleLiveTest do
              |> render_change() =~ "タイトルを記入してください。"
 
       index_live
-      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1, category_id: 1})
       |> render_change()
 
       assert index_live
-             |> element("#preview", "Preview")
+             |> element("#preview", "プレビュー")
              |> render_click() =~ "<h2>section</h2>"
 
       assert index_live
@@ -72,28 +72,28 @@ defmodule KazipWeb.ArticleLiveTest do
       assert_patch(index_live, ~p"/")
 
       html = render(index_live)
-      assert html =~ "アカウントは正常に作成されました。"
+      assert html =~ "記事は正常に作成されました。"
       assert html =~ "some body"
     end
 
     test "updates article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
-      assert index_live |> element("#articles-#{article.id} a", "Edit") |> render_click() =~
+      assert index_live |> element("#articles-#{article.id} a", "編集") |> render_click() =~
                "記事を編集する"
 
       assert_patch(index_live, ~p"/articles/#{article}/edit")
 
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "Please fill in"
+             |> render_change() =~ "を記入してください"
 
       index_live
-      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1, category_id: 1})
       |> render_change()
 
       assert index_live
-             |> element("#preview", "Preview")
+             |> element("#preview", "プレビュー")
              |> render_click() =~ "<h2>section</h2>"
 
       assert index_live
@@ -117,7 +117,7 @@ defmodule KazipWeb.ArticleLiveTest do
     test "deletes article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
-      assert index_live |> element("#articles-#{article.id} a", "Delete") |> render_click()
+      assert index_live |> element("#articles-#{article.id} a", "削除") |> render_click()
       refute has_element?(index_live, "#articles-#{article.id}")
     end
 

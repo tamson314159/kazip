@@ -10,9 +10,9 @@ defmodule Kazip.ArticlesTest do
     account = account_fixture()
     %{
       account: account,
-      draft_article: draft_article_fixture(%{account_id: account.id}),
-      public_article: public_article_fixture(%{account_id: account.id}),
-      limited_article: limited_article_fixture(%{account_id: account.id})
+      draft_article: draft_article_fixture(%{account_id: account.id, category_id: 1}),
+      public_article: public_article_fixture(%{account_id: account.id, category_id: 1}),
+      limited_article: limited_article_fixture(%{account_id: account.id, category_id: 1})
     }
   end
 
@@ -35,6 +35,7 @@ defmodule Kazip.ArticlesTest do
     end
 
     test "list_articles/1 returns limited articles", %{account: account, limited_article: article} do
+      article = article |> Repo.preload(:category)
       assert Articles.list_articles(account.id, :limited) == [article]
     end
 
