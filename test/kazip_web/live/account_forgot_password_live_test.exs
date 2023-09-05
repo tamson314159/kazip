@@ -11,7 +11,7 @@ defmodule KazipWeb.AccountForgotPasswordLiveTest do
     test "renders email page", %{conn: conn} do
       {:ok, lv, html} = live(conn, ~p"/accounts/reset_password")
 
-      assert html =~ "Forgot your password?"
+      assert html =~ "パスワードをお忘れですか？"
       assert has_element?(lv, ~s|a[href="#{~p"/accounts/register"}"]|, "Register")
       assert has_element?(lv, ~s|a[href="#{~p"/accounts/log_in"}"]|, "Log in")
     end
@@ -41,7 +41,7 @@ defmodule KazipWeb.AccountForgotPasswordLiveTest do
         |> render_submit()
         |> follow_redirect(conn, "/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "メールアドレスが弊社システム内にあり"
 
       assert Repo.get_by!(Accounts.AccountToken, account_id: account.id).context ==
                "reset_password"
@@ -56,7 +56,7 @@ defmodule KazipWeb.AccountForgotPasswordLiveTest do
         |> render_submit()
         |> follow_redirect(conn, "/")
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "メールアドレスが弊社システム内にあり"
       assert Repo.all(Accounts.AccountToken) == []
     end
   end

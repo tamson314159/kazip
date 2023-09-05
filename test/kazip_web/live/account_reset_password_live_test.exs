@@ -97,7 +97,7 @@ defmodule KazipWeb.AccountResetPasswordLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/accounts/log_in")
 
-      assert conn.resp_body =~ "Log in"
+      assert conn.resp_body =~ "ログイン"
     end
 
     test "redirects to password reset page when the Register button is clicked", %{
@@ -112,7 +112,7 @@ defmodule KazipWeb.AccountResetPasswordLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/accounts/register")
 
-      assert conn.resp_body =~ "Register"
+      assert conn.resp_body =~ "アカウント登録"
     end
   end
 end

@@ -143,8 +143,8 @@ defmodule KazipWeb.CoreComponents do
 
   def flash_group(assigns) do
     ~H"""
-    <.flash kind={:info} title="Success!" flash={@flash} />
-    <.flash kind={:error} title="Error!" flash={@flash} />
+    <.flash kind={:info} title="成功！" flash={@flash} />
+    <.flash kind={:error} title="エラー！" flash={@flash} />
     <.flash
       id="client-error"
       kind={:error}

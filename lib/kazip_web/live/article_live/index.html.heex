@@ -1,8 +1,17 @@
 <.header>
-  Listing Articles
+  <div :if={@live_action in [:index]}>
+    記事一覧
+  </div>
+  <div :if={@live_action in [:drafts]}>
+    下書き一覧
+  </div>
+  <div :if={@live_action in [:limited]}>
+    限定記事一覧
+  </div>
+
   <:actions>
     <.link patch={~p"/articles/new"}>
-      <.button>New Article</.button>
+      <.button>新しい記事を作成</.button>
     </.link>
   </:actions>
 </.header>
@@ -12,7 +21,7 @@
     <.input
       field={@form["category_id"]}
       type="select"
-      label="Search by Category"
+      label="カテゴリで検索"
       options={[すべて: 0, 家事全般: 1, 掃除: 2, 洗濯: 3, 料理: 4, 片付け: 5, 育児: 6, 園芸: 7, 買い物: 8, その他: 9]}
     />
   </.simple_form>
@@ -23,14 +32,14 @@
   rows={@streams.articles}
   row_click={fn {_id, article} -> JS.navigate(~p"/articles/#{article}") end}
 >
-  <:col :let={{_id, article}} label="Title"><%= article.title %></:col>
+  <:col :let={{_id, article}} label="タイトル"><%= article.title %></:col>
 
-  <:col :let={{_id, article}} label="Category"><%= article.category.name %></:col>
+  <:col :let={{_id, article}} label="カテゴリー"><%= article.category.name %></:col>
   
-  <:col :let={{_id, article}} label="Body"><%= first_character(article.body || "", 30) %></:col>
+  <:col :let={{_id, article}} label="内容"><%= first_character(article.body || "", 30) %></:col>
   
-  <:col :let={{_id, article}} :if={@live_action != :drafts} label="Submit date">
-    <%= article.submit_date %>
+  <:col :let={{_id, article}} :if={@live_action != :drafts} label="提出日">
+    <%= article.submit_date.year %>/<%= article.submit_date.month %>/<%= article.submit_date.day %>
   </:col>
   
   <:action :let={{_id, article}}>
@@ -42,7 +51,7 @@
       :if={@current_account && @current_account.id == article.account_id}
       patch={~p"/articles/#{article}/edit"}
     >
-      Edit
+      編集
     </.link>
   </:action>
   
@@ -52,7 +61,7 @@
       phx-click={JS.push("delete", value: %{id: article.id}) |> hide("##{id}")}
       data-confirm="Are you sure?"
     >
-      Delete
+      削除
     </.link>
   </:action>
 </.table>

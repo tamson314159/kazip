@@ -41,7 +41,7 @@ defmodule KazipWeb.AccountConfirmationInstructionsLive do
     end
 
     info =
-      "If your email is in our system and it has not been confirmed yet, you will receive an email with instructions shortly."
+      "メールアドレスが弊社システム内にあり、まだ確認されていない場合は、まもなくご案内メールをお送りいたします。"
 
     {:noreply,
      socket

@@ -3,6 +3,6 @@ defmodule KazipWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Listing Articles"
+    assert html_response(conn, 200) =~ "記事一覧"
   end
 end

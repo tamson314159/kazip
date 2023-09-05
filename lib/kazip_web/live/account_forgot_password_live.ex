@@ -7,21 +7,21 @@ defmodule KazipWeb.AccountForgotPasswordLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Forgot your password?
-        <:subtitle>We'll send a password reset link to your inbox</:subtitle>
+        パスワードをお忘れですか？
+        <:subtitle>受信トレイにパスワード再設定リンクをお送りします。</:subtitle>
       </.header>
 
       <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
-        <.input field={@form[:email]} type="email" placeholder="Email" required />
+        <.input field={@form[:email]} type="email" placeholder="メールアドレス" required />
         <:actions>
           <.button phx-disable-with="Sending..." class="w-full">
-            Send password reset instructions
+            パスワードのリセット方法を送信する
           </.button>
         </:actions>
       </.simple_form>
       <p class="text-center text-sm mt-4">
-        <.link href={~p"/accounts/register"}>Register</.link>
-        | <.link href={~p"/accounts/log_in"}>Log in</.link>
+        <.link href={~p"/accounts/register"}>アカウント登録</.link>
+        | <.link href={~p"/accounts/log_in"}>ログイン</.link>
       </p>
     </div>
     """
@@ -40,7 +40,7 @@ defmodule KazipWeb.AccountForgotPasswordLive do
     end
 
     info =
-      "If your email is in our system, you will receive instructions to reset your password shortly."
+      "メールアドレスが弊社システム内にあり、まだ確認されていない場合は、まもなくご案内メールをお送りいたします。"
 
     {:noreply,
      socket

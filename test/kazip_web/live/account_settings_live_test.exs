@@ -12,8 +12,8 @@ defmodule KazipWeb.AccountSettingsLiveTest do
         |> log_in_account(account_fixture())
         |> live(~p"/accounts/settings")
 
-      assert html =~ "Change Email"
-      assert html =~ "Change Password"
+      assert html =~ "メールアドレスを変更する"
+      assert html =~ "パスワードを変更する"
     end
 
     test "redirects if account is not logged in", %{conn: conn} do
@@ -61,7 +61,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
           "account" => %{"email" => "with spaces"}
         })
 
-      assert result =~ "Change Email"
+      assert result =~ "メールアドレスを変更する"
       assert result =~ "must have the @ sign and no spaces"
     end
 
@@ -76,7 +76,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
         })
         |> render_submit()
 
-      assert result =~ "Change Email"
+      assert result =~ "メールアドレスを変更する"
       assert result =~ "did not change"
       assert result =~ "is not valid"
     end
@@ -113,7 +113,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
       assert get_session(new_password_conn, :account_token) != get_session(conn, :account_token)
 
       assert Phoenix.Flash.get(new_password_conn.assigns.flash, :info) =~
-               "Password updated successfully"
+               "パスワードは正常に更新されました。"
 
       assert Accounts.get_account_by_email_and_password(account.email, new_password)
     end
@@ -132,7 +132,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
           }
         })
 
-      assert result =~ "Change Password"
+      assert result =~ "パスワードを変更する"
       assert result =~ "should be at least 9 character(s)"
       assert result =~ "does not match password"
     end
@@ -151,7 +151,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
         })
         |> render_submit()
 
-      assert result =~ "Change Password"
+      assert result =~ "パスワードを変更する"
       assert result =~ "should be at least 9 character(s)"
       assert result =~ "does not match password"
       assert result =~ "is not valid"
