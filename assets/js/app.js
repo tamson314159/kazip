@@ -20,9 +20,9 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/lib/languages/markdown';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Wait for the Markdown to render before highlighting code
-  setTimeout(function() {
+  setTimeout(function () {
     hljs.highlightAll();
   }, 0);
 });
@@ -31,15 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
+import { Socket } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken } })
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" })
 window.addEventListener("phx:page-loading-start", _info => topbar.show(300))
 window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
 
@@ -52,3 +52,29 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+// カラーテーマ
+function darkExpected() {
+  return localStorage.theme === 'dark' || (!('theme' in localStorage) &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches);
+}
+
+function initDarkMode() {
+  // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+  if (darkExpected()) {
+    document.documentElement.classList.add('dark');
+    document.getElementById('change-color-thema-icon').classList.add('hero-moon-solid');
+    document.getElementById('change-color-thema-icon').classList.remove('hero-sun-solid');
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.getElementById('change-color-thema-icon').classList.add('hero-sun-solid');
+    document.getElementById('change-color-thema-icon').classList.remove('hero-moon-solid');
+  }
+}
+
+window.addEventListener("toogle-darkmode", e => {
+  if (darkExpected()) localStorage.theme = 'light';
+  else localStorage.theme = 'dark';
+  initDarkMode();
+})
+
+initDarkMode();
