@@ -12,8 +12,8 @@ defmodule KazipWeb.AccountForgotPasswordLiveTest do
       {:ok, lv, html} = live(conn, ~p"/accounts/reset_password")
 
       assert html =~ "パスワードをお忘れですか？"
-      assert has_element?(lv, ~s|a[href="#{~p"/accounts/register"}"]|, "Register")
-      assert has_element?(lv, ~s|a[href="#{~p"/accounts/log_in"}"]|, "Log in")
+      assert has_element?(lv, ~s|a[href="#{~p"/accounts/register"}"]|, "アカウント登録")
+      assert has_element?(lv, ~s|a[href="#{~p"/accounts/log_in"}"]|, "ログイン")
     end
 
     test "redirects if already logged in", %{conn: conn} do
