@@ -23,7 +23,7 @@ defmodule KazipWeb.ArticleLive.Index do
     current_account_id = socket.assigns.current_account.id
     if (current_account_id == article.account_id) do
       socket
-        |> assign(:page_title, "記事の編集")
+        |> assign(:page_title, "記事を編集する")
         |> assign(:article, Articles.get_article!(id))
     else
       redirect(socket, to: ~p"/")

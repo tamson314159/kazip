@@ -35,6 +35,7 @@ defmodule Kazip.ArticlesTest do
     end
 
     test "list_articles/1 returns limited articles", %{account: account, limited_article: article} do
+      article = article |> Repo.preload(:category)
       assert Articles.list_articles(account.id, :limited) == [article]
     end
 
