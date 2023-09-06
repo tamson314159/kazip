@@ -12,7 +12,12 @@
     </script>
   </head>
   <body class="text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 antialiased">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end py-5 border-b">
+      <li class="w-2/12 h-auto mr-auto">
+        <a href="/">
+          <img src="/images/kazip-low-resolution-logo-color-on-transparent-background.png" alt="Kazip Logo" />
+        </a>
+      </li>
       <%= if @current_account do %>
         <li class="text-[0.8125rem] leading-6 text-slate-700 dark:text-slate-200">
           <%= @current_account.email %>

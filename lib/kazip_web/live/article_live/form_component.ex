@@ -30,7 +30,7 @@ defmodule KazipWeb.ArticleLive.FormComponent do
         <.input
           field={@form[:category_id]}
           type="select"
-          label="カテゴリー"
+          label="カテゴリ"
           options={[家事全般: 1, 掃除: 2, 洗濯: 3, 料理: 4, 片付け: 5, 育児: 6, 園芸: 7, 買い物: 8, その他: 9]}
         />
         <:actions>
