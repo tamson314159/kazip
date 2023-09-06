@@ -12,7 +12,7 @@ defmodule KazipWeb.AccountRegistrationLive do
         <:subtitle>
           既に登録済みですか？
           アカウントに
-          <.link navigate={~p"/accounts/log_in"} class="font-semibold text-brand hover:underline">
+          <.link navigate={~p"/accounts/log_in"} class="font-semibold text-sky-600 hover:underline">
             ログイン
           </.link>
           してください。
