@@ -8,7 +8,7 @@ defmodule KazipWeb.AccountLoginLive do
         アカウントにログイン
         <:subtitle>
           アカウントをお持ちでないですか？今すぐ
-          <.link navigate={~p"/accounts/register"} class="font-semibold text-brand hover:underline">
+          <.link navigate={~p"/accounts/register"} class="font-semibold text-sky-600 hover:underline">
             アカウント登録
           </.link>
           できます。
