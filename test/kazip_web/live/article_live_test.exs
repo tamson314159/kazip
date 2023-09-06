@@ -134,6 +134,7 @@ defmodule KazipWeb.ArticleLiveTest do
       {:ok, _show_live, html} = live(conn, ~p"/articles/#{article}")
 
       assert html =~ article.title
+      assert html =~ article.account.email
       assert html =~ article.body
     end
 
