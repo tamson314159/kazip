@@ -268,7 +268,7 @@ defmodule Kazip.AccountsTest do
 
       assert %{
                password: ["should be at least 9 character(s)"],
-               password_confirmation: ["パスワードと一致しません"]
+               password_confirmation: ["パスワードが一致しません"]
              } = errors_on(changeset)
     end
 
@@ -477,7 +477,7 @@ defmodule Kazip.AccountsTest do
 
       assert %{
                password: ["should be at least 9 character(s)"],
-               password_confirmation: ["パスワードと一致しません"]
+               password_confirmation: ["パスワードが一致しません"]
              } = errors_on(changeset)
     end
 

@@ -121,7 +121,7 @@ defmodule Kazip.Accounts.Account do
   def password_changeset(account, attrs, opts \\ []) do
     account
     |> cast(attrs, [:password])
-    |> validate_confirmation(:password, message: "パスワードと一致しません")
+    |> validate_confirmation(:password, message: "パスワードが一致しません")
     |> validate_password(opts)
   end
 

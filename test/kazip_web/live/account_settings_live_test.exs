@@ -134,7 +134,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
 
       assert result =~ "パスワードを変更する"
       assert result =~ "9文字以上で入力してください"
-      assert result =~ "パスワードと一致しません"
+      assert result =~ "パスワードが一致しません"
     end
 
     test "renders errors with invalid data (phx-submit)", %{conn: conn} do
@@ -153,7 +153,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
 
       assert result =~ "パスワードを変更する"
       assert result =~ "9文字以上で入力してください"
-      assert result =~ "パスワードと一致しません"
+      assert result =~ "パスワードが一致しません"
       assert result =~ "is not valid"
     end
   end

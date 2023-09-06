@@ -44,7 +44,7 @@ defmodule KazipWeb.AccountResetPasswordLiveTest do
         )
 
       assert result =~ "9文字以上で入力してください"
-      assert result =~ "パスワードと一致しません"
+      assert result =~ "パスワードが一致しません"
     end
   end
 
@@ -83,7 +83,7 @@ defmodule KazipWeb.AccountResetPasswordLiveTest do
 
       assert result =~ "Reset Password"
       assert result =~ "9文字以上で入力してください"
-      assert result =~ "パスワードと一致しません"
+      assert result =~ "パスワードが一致しません"
     end
   end
 
