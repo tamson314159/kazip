@@ -84,7 +84,7 @@ defmodule Kazip.Articles do
       ** (Ecto.NoResultsError)
 
   """
-  def get_article!(id), do: Repo.get!(Article, id) |> Repo.preload(:category)
+  def get_article!(id), do: Repo.get!(Article, id) |> Repo.preload([:category, :account])
 
   def get_category!(id), do: Repo.get!(Category, id)
 

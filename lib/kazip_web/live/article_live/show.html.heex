@@ -10,13 +10,18 @@
   </:actions>
 </.header>
 
+<div class="my-8 text-right text-slate-700 dark:text-slate-400">
+  <ul class="list-none">
+    <li>
+      投稿日: <%= @article.submit_date.year %>/<%= @article.submit_date.month %>/<%= @article.submit_date.day %>
+    </li>
+    
+    <li>投稿者: <%= @article.account.email %></li>
+  </ul>
+</div>
+
 <div class="article_body">
-  <div class="mt-8 text-right text-slate-700 dark:text-slate-400">
-    投稿日:
-    <%= @article.submit_date.year %>/<%= @article.submit_date.month %>/<%= @article.submit_date.day %>
-  </div>
-  
-   <%= @article.body |> parse_markdown |> raw %>
+  <%= @article.body |> parse_markdown |> raw %>
 </div>
 
 <.back navigate={~p"/"}>記事一覧に戻る</.back>

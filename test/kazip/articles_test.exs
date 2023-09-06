@@ -6,6 +6,8 @@ defmodule Kazip.ArticlesTest do
   import Kazip.ArticlesFixtures
   import Kazip.AccountsFixtures
 
+  alias Kazip.Articles.Article
+
   setup do
     account = account_fixture()
     %{
@@ -39,8 +41,8 @@ defmodule Kazip.ArticlesTest do
       assert Articles.list_articles(account.id, :limited) == [article]
     end
 
-    test "get_article!/1 returns the article with given id", %{public_article: article} do
-      assert Articles.get_article!(article.id) == article
+    test "get_article!/1 returns the article with given id", %{public_article: %{id: id} = article} do
+      assert %Article{id: ^id} = Articles.get_article!(article.id)
     end
 
     test "create_article/1 with valid data creates a article", %{account: account} do
@@ -68,9 +70,9 @@ defmodule Kazip.ArticlesTest do
       assert article.status == 1
     end
 
-    test "update_article/2 with invalid data returns error changeset", %{public_article: article} do
+    test "update_article/2 with invalid data returns error changeset", %{public_article: %{id: id} = article} do
       assert {:error, %Ecto.Changeset{}} = Articles.update_article(article, @invalid_attrs)
-      assert article == Articles.get_article!(article.id)
+      assert %Article{id: ^id} = Articles.get_article!(article.id)
     end
 
     test "delete_article/1 deletes the article", %{public_article: article} do

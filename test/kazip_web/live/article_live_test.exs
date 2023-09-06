@@ -5,6 +5,8 @@ defmodule KazipWeb.ArticleLiveTest do
   import Kazip.ArticlesFixtures
   import Kazip.AccountsFixtures
 
+  alias Kazip.Repo
+
   @create_attrs %{body: "some body", title: "some title", status: 1}
   @update_attrs %{body: "some updated body", title: "some updated title", status: 1, category_id: 1}
   @invalid_attrs %{body: nil, title: nil, status: 0}
@@ -133,7 +135,10 @@ defmodule KazipWeb.ArticleLiveTest do
     test "displays article", %{conn: conn, public_article: article} do
       {:ok, _show_live, html} = live(conn, ~p"/articles/#{article}")
 
+      article = Repo.preload(article, :account)
+
       assert html =~ article.title
+      assert html =~ "投稿者: #{article.account.email}"
       assert html =~ article.body
     end
 
