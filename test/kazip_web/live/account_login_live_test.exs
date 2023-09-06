@@ -8,9 +8,9 @@ defmodule KazipWeb.AccountLoginLiveTest do
     test "renders log in page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/accounts/log_in")
 
-      assert html =~ "Log in"
-      assert html =~ "Register"
-      assert html =~ "Forgot your password?"
+      assert html =~ "アカウントにログイン"
+      assert html =~ "アカウント登録"
+      assert html =~ "パスワードを忘れた場合"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -63,11 +63,11 @@ defmodule KazipWeb.AccountLoginLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|main a:fl-contains("Sign up")|)
+        |> element(~s|main a:fl-contains("アカウント登録")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/accounts/register")
 
-      assert login_html =~ "Register"
+      assert login_html =~ "アカウント登録"
     end
 
     test "redirects to forgot password page when the Forgot Password button is clicked", %{
@@ -77,11 +77,11 @@ defmodule KazipWeb.AccountLoginLiveTest do
 
       {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Forgot your password?")|)
+        |> element(~s|main a:fl-contains("パスワードを忘れた場合")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/accounts/reset_password")
 
-      assert conn.resp_body =~ "Forgot your password?"
+      assert conn.resp_body =~ "パスワードをお忘れですか？"
     end
   end
 end

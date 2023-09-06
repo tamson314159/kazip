@@ -5,17 +5,17 @@ defmodule KazipWeb.AccountSessionController do
   alias KazipWeb.AccountAuth
 
   def create(conn, %{"_action" => "registered"} = params) do
-    create(conn, params, "Account created successfully!")
+    create(conn, params, "アカウントは正常に作成されました。")
   end
 
   def create(conn, %{"_action" => "password_updated"} = params) do
     conn
     |> put_session(:account_return_to, ~p"/accounts/settings")
-    |> create(params, "Password updated successfully!")
+    |> create(params, "パスワードは正常に更新されました。")
   end
 
   def create(conn, params) do
-    create(conn, params, "Welcome back!")
+    create(conn, params, "お帰りなさい！")
   end
 
   defp create(conn, %{"account" => account_params}, info) do
@@ -36,7 +36,7 @@ defmodule KazipWeb.AccountSessionController do
 
   def delete(conn, _params) do
     conn
-    |> put_flash(:info, "Logged out successfully.")
+    |> put_flash(:info, "正常にログアウトしました。")
     |> AccountAuth.log_out_account()
   end
 end

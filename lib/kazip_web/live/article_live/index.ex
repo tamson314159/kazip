@@ -23,7 +23,7 @@ defmodule KazipWeb.ArticleLive.Index do
     current_account_id = socket.assigns.current_account.id
     if (current_account_id == article.account_id) do
       socket
-        |> assign(:page_title, "Edit Article")
+        |> assign(:page_title, "編集")
         |> assign(:article, Articles.get_article!(id))
     else
       redirect(socket, to: ~p"/")
@@ -32,13 +32,13 @@ defmodule KazipWeb.ArticleLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Article")
+    |> assign(:page_title, "新規作成")
     |> assign(:article, %Article{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Articles")
+    |> assign(:page_title, "記事一覧")
     |> assign(:article, nil)
     |> stream(:articles, Articles.list_articles(:public), reset: true)
     |> assign_form()
@@ -48,7 +48,7 @@ defmodule KazipWeb.ArticleLive.Index do
     articles = Articles.list_articles(socket.assigns.current_account.id, :draft)
 
     socket
-    |> assign(:page_title, "Listing Drafts")
+    |> assign(:page_title, "下書き一覧")
     |> assign(:article, nil)
     |> stream(:articles, articles)
   end
@@ -57,7 +57,7 @@ defmodule KazipWeb.ArticleLive.Index do
     articles = Articles.list_articles(socket.assigns.current_account.id, :limited)
 
     socket
-    |> assign(:page_title, "Listing Limited Articles")
+    |> assign(:page_title, "限定記事一覧")
     |> assign(:article, nil)
     |> stream(:articles, articles)
   end

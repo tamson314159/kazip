@@ -27,7 +27,7 @@ defmodule KazipWeb.AccountConfirmationInstructionsLiveTest do
         |> follow_redirect(conn, ~p"/")
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "If your email is in our system"
+               "メールアドレスが弊社システム内にあり"
 
       assert Repo.get_by!(Accounts.AccountToken, account_id: account.id).context == "confirm"
     end
@@ -44,7 +44,7 @@ defmodule KazipWeb.AccountConfirmationInstructionsLiveTest do
         |> follow_redirect(conn, ~p"/")
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "If your email is in our system"
+               "メールアドレスが弊社システム内にあり"
 
       refute Repo.get_by(Accounts.AccountToken, account_id: account.id)
     end
@@ -59,7 +59,7 @@ defmodule KazipWeb.AccountConfirmationInstructionsLiveTest do
         |> follow_redirect(conn, ~p"/")
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "If your email is in our system"
+               "メールアドレスが弊社システム内にあり"
 
       assert Repo.all(Accounts.AccountToken) == []
     end

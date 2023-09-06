@@ -5,29 +5,29 @@ defmodule KazipWeb.AccountLoginLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Sign in to account
+        アカウントにログイン
         <:subtitle>
-          Don't have an account?
+          アカウントをお持ちでないですか？今すぐ
           <.link navigate={~p"/accounts/register"} class="font-semibold text-brand hover:underline">
-            Sign up
+            アカウント登録
           </.link>
-          for an account now.
+          できます。
         </:subtitle>
       </.header>
 
       <.simple_form for={@form} id="login_form" action={~p"/accounts/log_in"} phx-update="ignore">
-        <.input field={@form[:email]} type="email" label="Email" required />
-        <.input field={@form[:password]} type="password" label="Password" required />
+        <.input field={@form[:email]} type="email" label="メールアドレス" required />
+        <.input field={@form[:password]} type="password" label="パスワード" required />
 
         <:actions>
-          <.input field={@form[:remember_me]} type="checkbox" label="Keep me logged in" />
+          <.input field={@form[:remember_me]} type="checkbox" label="ログインしたままにする" />
           <.link href={~p"/accounts/reset_password"} class="text-sm font-semibold">
-            Forgot your password?
+            パスワードを忘れた場合
           </.link>
         </:actions>
         <:actions>
           <.button phx-disable-with="Signing in..." class="w-full">
-            Sign in <span aria-hidden="true">→</span>
+            ログインする <span aria-hidden="true">→</span>
           </.button>
         </:actions>
       </.simple_form>

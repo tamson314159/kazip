@@ -4,6 +4,8 @@ defmodule Kazip.ArticlesFixtures do
   entities via the `Kazip.Articles` context.
   """
 
+  alias Kazip.Repo
+
   @doc """
   Generate a article.
   """
@@ -18,6 +20,7 @@ defmodule Kazip.ArticlesFixtures do
       |> Kazip.Articles.create_article()
 
     article
+    |> Repo.preload(:category)
   end
 
   def public_article_fixture(attrs \\ %{}) do
@@ -31,6 +34,7 @@ defmodule Kazip.ArticlesFixtures do
       |> Kazip.Articles.create_article()
 
     article
+    |> Repo.preload(:category)
   end
 
   def limited_article_fixture(attrs \\ %{}) do
@@ -44,5 +48,17 @@ defmodule Kazip.ArticlesFixtures do
       |> Kazip.Articles.create_article()
 
     article
+    |> Repo.preload(:category)
+  end
+
+  def category_fixture(attrs \\ %{}) do
+    {:ok, category} =
+    attrs
+    |> Enum.into(%{
+      name: "category name"
+    })
+    |> Kazip.Articles.create_category()
+
+    category
   end
 end

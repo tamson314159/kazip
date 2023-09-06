@@ -8,13 +8,14 @@ defmodule KazipWeb.AccountRegistrationLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Register for an account
+        アカウント登録
         <:subtitle>
-          Already registered?
+          既に登録済みですか？
+          アカウントに
           <.link navigate={~p"/accounts/log_in"} class="font-semibold text-brand hover:underline">
-            Sign in
+            ログイン
           </.link>
-          to your account now.
+          してください。
         </:subtitle>
       </.header>
 
@@ -31,11 +32,11 @@ defmodule KazipWeb.AccountRegistrationLive do
           Oops, something went wrong! Please check the errors below.
         </.error>
 
-        <.input field={@form[:email]} type="email" label="Email" required />
-        <.input field={@form[:password]} type="password" label="Password" required />
+        <.input field={@form[:email]} type="email" label="メールアドレス" required />
+        <.input field={@form[:password]} type="password" label="パスワード" required />
 
         <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
+          <.button phx-disable-with="Creating account..." class="w-full">アカウントを作成する</.button>
         </:actions>
       </.simple_form>
     </div>

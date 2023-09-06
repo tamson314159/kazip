@@ -6,18 +6,18 @@ defmodule KazipWeb.ArticleLiveTest do
   import Kazip.AccountsFixtures
 
   @create_attrs %{body: "some body", title: "some title", status: 1}
-  @update_attrs %{body: "some updated body", title: "some updated title", status: 1}
+  @update_attrs %{body: "some updated body", title: "some updated title", status: 1, category_id: 1}
   @invalid_attrs %{body: nil, title: nil, status: 0}
 
   defp create_article(%{account: account}) do
+    #category = category_fixture()
     other_account = account_fixture()
-
     %{
-      draft_article: draft_article_fixture(%{account_id: account.id}),
-      public_article: public_article_fixture(%{account_id: account.id}),
-      limited_article: limited_article_fixture(%{account_id: account.id}),
-      other_draft_article: draft_article_fixture(%{account_id: other_account.id}),
-      other_public_article: public_article_fixture(%{account_id: other_account.id})
+      draft_article: draft_article_fixture(%{account_id: account.id, category_id: 1}),
+      public_article: public_article_fixture(%{account_id: account.id, category_id: 1}),
+      limited_article: limited_article_fixture(%{account_id: account.id, category_id: 1}),
+      other_draft_article: draft_article_fixture(%{account_id: other_account.id, category_id: 1}),
+      other_public_article: public_article_fixture(%{account_id: other_account.id, category_id: 1})
     }
   end
 
@@ -27,42 +27,42 @@ defmodule KazipWeb.ArticleLiveTest do
     test "lists public articles", %{conn: conn, public_article: article} do
       {:ok, _index_live, html} = live(conn, ~p"/")
 
-      assert html =~ "Listing Articles"
+      assert html =~ "記事一覧"
       assert html =~ article.body
     end
 
     test "lists draft articles", %{conn: conn, draft_article: article} do
       {:ok, _index_live, html} = live(conn, ~p"/drafts")
 
-      assert html =~ "Listing Drafts"
+      assert html =~ "下書き一覧"
       assert html =~ article.body
     end
 
     test "lists limited articles", %{conn: conn, limited_article: article} do
       {:ok, _index_live, html} = live(conn, ~p"/limited")
 
-      assert html =~ "Listing Limited Articles"
+      assert html =~ "限定記事一覧"
       assert html =~ article.body
     end
 
     test "saves new article", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
-      assert index_live |> element("a", "New Article") |> render_click() =~
-               "New Article"
+      assert index_live |> element("a", "新規作成") |> render_click() =~
+               "新規作成"
 
       assert_patch(index_live, ~p"/articles/new")
 
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "Please fill in the title."
+             |> render_change() =~ "タイトルを記入してください。"
 
       index_live
-      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1, category_id: 1})
       |> render_change()
 
       assert index_live
-             |> element("#preview", "Preview")
+             |> element("#preview", "プレビュー")
              |> render_click() =~ "<h2>section</h2>"
 
       assert index_live
@@ -72,28 +72,28 @@ defmodule KazipWeb.ArticleLiveTest do
       assert_patch(index_live, ~p"/")
 
       html = render(index_live)
-      assert html =~ "Article created successfully"
+      assert html =~ "記事は正常に作成されました。"
       assert html =~ "some body"
     end
 
     test "updates article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
-      assert index_live |> element("#articles-#{article.id} a", "Edit") |> render_click() =~
-               "Edit Article"
+      assert index_live |> element("#articles-#{article.id} a", "編集") |> render_click() =~
+               "編集"
 
       assert_patch(index_live, ~p"/articles/#{article}/edit")
 
       assert index_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "Please fill in"
+             |> render_change() =~ "を記入してください"
 
       index_live
-      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1})
+      |> form("#article-form", article: %{body: "## section", title: "some title", status: 1, category_id: 1})
       |> render_change()
 
       assert index_live
-             |> element("#preview", "Preview")
+             |> element("#preview", "プレビュー")
              |> render_click() =~ "<h2>section</h2>"
 
       assert index_live
@@ -103,7 +103,7 @@ defmodule KazipWeb.ArticleLiveTest do
       assert_patch(index_live, ~p"/")
 
       html = render(index_live)
-      assert html =~ "Article updated successfully"
+      assert html =~ "記事は正常に更新されました。"
       assert html =~ "some updated body"
     end
 
@@ -117,7 +117,7 @@ defmodule KazipWeb.ArticleLiveTest do
     test "deletes article in listing", %{conn: conn, public_article: article} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
-      assert index_live |> element("#articles-#{article.id} a", "Delete") |> render_click()
+      assert index_live |> element("#articles-#{article.id} a", "削除") |> render_click()
       refute has_element?(index_live, "#articles-#{article.id}")
     end
 
@@ -144,14 +144,14 @@ defmodule KazipWeb.ArticleLiveTest do
     test "updates article within modal", %{conn: conn, public_article: article} do
       {:ok, show_live, _html} = live(conn, ~p"/articles/#{article}")
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
+      assert show_live |> element("a", "編集") |> render_click() =~
                article.title
 
       assert_patch(show_live, ~p"/articles/#{article}/show/edit")
 
       assert show_live
              |> form("#article-form", article: @invalid_attrs)
-             |> render_change() =~ "Please fill in the title."
+             |> render_change() =~ "タイトルを記入してください。"
 
       assert show_live
              |> form("#article-form", article: @update_attrs)
@@ -160,7 +160,7 @@ defmodule KazipWeb.ArticleLiveTest do
       assert_patch(show_live, ~p"/articles/#{article}")
 
       html = render(show_live)
-      assert html =~ "Article updated successfully"
+      assert html =~ "記事は正常に更新されました。"
       assert html =~ "some updated body"
     end
 

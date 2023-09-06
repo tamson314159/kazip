@@ -51,7 +51,7 @@ defmodule KazipWeb.AccountSessionControllerTest do
         })
 
       assert redirected_to(conn) == "/foo/bar"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Welcome back!"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "お帰りなさい！"
     end
 
     test "login following registration", %{conn: conn, account: account} do
@@ -66,7 +66,7 @@ defmodule KazipWeb.AccountSessionControllerTest do
         })
 
       assert redirected_to(conn) == ~p"/"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Account created successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "アカウントは正常に作成されました。"
     end
 
     test "login following password update", %{conn: conn, account: account} do
@@ -81,7 +81,7 @@ defmodule KazipWeb.AccountSessionControllerTest do
         })
 
       assert redirected_to(conn) == ~p"/accounts/settings"
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Password updated successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "パスワードは正常に更新されました。"
     end
 
     test "redirects to login page with invalid credentials", %{conn: conn} do
@@ -100,14 +100,14 @@ defmodule KazipWeb.AccountSessionControllerTest do
       conn = conn |> log_in_account(account) |> delete(~p"/accounts/log_out")
       assert redirected_to(conn) == ~p"/"
       refute get_session(conn, :account_token)
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Logged out successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "正常にログアウトしました"
     end
 
     test "succeeds even if the account is not logged in", %{conn: conn} do
       conn = delete(conn, ~p"/accounts/log_out")
       assert redirected_to(conn) == ~p"/"
       refute get_session(conn, :account_token)
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "Logged out successfully"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "正常にログアウトしました"
     end
   end
 end

@@ -5,21 +5,21 @@
   
   <:actions :if={@current_account && @current_account.id == @article.account_id}>
     <.link patch={~p"/articles/#{@article}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit article</.button>
+      <.button>編集</.button>
     </.link>
   </:actions>
 </.header>
 
 <div class="article_body">
   <div class="mt-8 text-right text-slate-700 dark:text-slate-400">
-    Submit date:
+    投稿日:
     <%= @article.submit_date.year %>/<%= @article.submit_date.month %>/<%= @article.submit_date.day %>
   </div>
   
    <%= @article.body |> parse_markdown |> raw %>
 </div>
 
-<.back navigate={~p"/"}>Back to articles</.back>
+<.back navigate={~p"/"}>記事一覧に戻る</.back>
 
 <.modal
   :if={@live_action == :edit}

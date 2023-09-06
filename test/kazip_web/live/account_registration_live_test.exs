@@ -8,8 +8,8 @@ defmodule KazipWeb.AccountRegistrationLiveTest do
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/accounts/register")
 
-      assert html =~ "Register"
-      assert html =~ "Log in"
+      assert html =~ "アカウント登録"
+      assert html =~ "ログイン"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -30,7 +30,7 @@ defmodule KazipWeb.AccountRegistrationLiveTest do
         |> element("#registration_form")
         |> render_change(account: %{"email" => "with spaces", "password" => "tooshort"})
 
-      assert result =~ "Register"
+      assert result =~ "アカウント登録"
       assert result =~ "must have the @ sign and no spaces"
       assert result =~ "should be at least 9 character"
     end
@@ -51,8 +51,8 @@ defmodule KazipWeb.AccountRegistrationLiveTest do
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ email
-      assert response =~ "Settings"
-      assert response =~ "Log out"
+      assert response =~ "設定"
+      assert response =~ "ログアウト"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -77,11 +77,11 @@ defmodule KazipWeb.AccountRegistrationLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|main a:fl-contains("Sign in")|)
+        |> element(~s|main a:fl-contains("ログイン")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/accounts/log_in")
 
-      assert login_html =~ "Log in"
+      assert login_html =~ "ログイン"
     end
   end
 end

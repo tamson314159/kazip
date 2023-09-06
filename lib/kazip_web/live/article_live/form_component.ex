@@ -10,7 +10,6 @@ defmodule KazipWeb.ArticleLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage article records in your database.</:subtitle>
       </.header>
 
       <.simple_form
@@ -20,28 +19,28 @@ defmodule KazipWeb.ArticleLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:body]} type="textarea" label="Body" />
+        <.input field={@form[:title]} type="text" label="タイトル" />
+        <.input field={@form[:body]} type="textarea" label="内容" />
         <.input
           field={@form[:status]}
           type="select"
-          label="Public Type"
-          options={[draft: 0, public: 1, limited: 2]}
+          label="公開・限定"
+          options={[下書き: 0, 公開: 1, 限定: 2]}
         />
         <.input
           field={@form[:category_id]}
           type="select"
-          label="Category"
+          label="カテゴリー"
           options={[家事全般: 1, 掃除: 2, 洗濯: 3, 料理: 4, 片付け: 5, 育児: 6, 園芸: 7, 買い物: 8, その他: 9]}
         />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Article</.button>
+          <.button phx-disable-with="保存中...">記事を保存</.button>
         </:actions>
       </.simple_form>
       <label class="relative inline-flex items-center cursor-pointer mt-2" phx-target={@myself} phx-click="preview">
         <input type="checkbox" value="" class="sr-only peer" checked={@preview}>
         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Preview</span>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">プレビュー</span>
       </label>
       <div :if={@preview} class="article_body">
         <div class="mb-3">
@@ -86,19 +85,19 @@ defmodule KazipWeb.ArticleLive.FormComponent do
     case Articles.update_article(socket.assigns.article, article_params) do
       {:ok, %Article{status: 0}} ->
         socket
-        |> put_flash(:info, "Article saved successfully")
+        |> put_flash(:info, "記事は正常に保存されました。")
         |> redirect(to: ~p"/drafts")
 
       {:ok, %Article{status: 1} = article} ->
         notify_parent({:saved, article})
 
         socket
-        |> put_flash(:info, "Article updated successfully")
+        |> put_flash(:info, "記事は正常に更新されました。")
         |> push_patch(to: socket.assigns.patch)
 
       {:ok, %Article{status: 2}} ->
         socket
-        |> put_flash(:info, "Article updated successfully")
+        |> put_flash(:info, "記事は正常に更新されました。")
         |> redirect(to: ~p"/limited")
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -113,19 +112,19 @@ defmodule KazipWeb.ArticleLive.FormComponent do
     case Articles.create_article(article_params) do
       {:ok, %Article{status: 0}} ->
         socket
-        |> put_flash(:info, "Article saved successfully")
+        |> put_flash(:info, "記事は正常に保存されました。")
         |> redirect(to: ~p"/drafts")
 
       {:ok, %Article{status: 1} = _article} ->
         # notify_parent({:saved, article})
 
         socket
-        |> put_flash(:info, "Article created successfully")
+        |> put_flash(:info, "記事は正常に作成されました。")
         |> push_patch(to: socket.assigns.patch)
 
       {:ok, %Article{status: 2}} ->
         socket
-        |> put_flash(:info, "Article created successfully")
+        |> put_flash(:info, "記事は正常に作成されました。")
         |> redirect(to: ~p"/limited")
 
       {:error, %Ecto.Changeset{} = changeset} ->
