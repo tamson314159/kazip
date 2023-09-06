@@ -62,7 +62,7 @@ defmodule Kazip.AccountsTest do
       {:error, changeset} = Accounts.register_account(%{email: "not valid", password: "notvalid"})
 
       assert %{
-               email: ["must have the @ sign and no spaces"],
+               email: ["スペースを除き、@記号を入力してください"],
                password: ["should be at least 9 character(s)"]
              } = errors_on(changeset)
     end
@@ -138,7 +138,7 @@ defmodule Kazip.AccountsTest do
       {:error, changeset} =
         Accounts.apply_account_email(account, valid_account_password(), %{email: "not valid"})
 
-      assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
+      assert %{email: ["スペースを除き、@記号を入力してください"]} = errors_on(changeset)
     end
 
     test "validates maximum value for email for security", %{account: account} do
@@ -268,7 +268,7 @@ defmodule Kazip.AccountsTest do
 
       assert %{
                password: ["should be at least 9 character(s)"],
-               password_confirmation: ["does not match password"]
+               password_confirmation: ["パスワードと一致しません"]
              } = errors_on(changeset)
     end
 
@@ -477,7 +477,7 @@ defmodule Kazip.AccountsTest do
 
       assert %{
                password: ["should be at least 9 character(s)"],
-               password_confirmation: ["does not match password"]
+               password_confirmation: ["パスワードと一致しません"]
              } = errors_on(changeset)
     end
 

@@ -44,7 +44,7 @@ defmodule Kazip.Accounts.Account do
   defp validate_email(changeset, opts) do
     changeset
     |> validate_required([:email])
-    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
+    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "スペースを除き、@記号を入力してください")
     |> validate_length(:email, max: 160)
     |> maybe_validate_unique_email(opts)
   end
@@ -56,7 +56,7 @@ defmodule Kazip.Accounts.Account do
       :password,
       min: 9,
       max: 72,
-      min_message: "should be at least 9 character(s)",
+      min_message: "9文字以上で入力してください",
       max_message: "should be at most 72 character(s)"
       )
     # Examples of additional password validation:
@@ -121,7 +121,7 @@ defmodule Kazip.Accounts.Account do
   def password_changeset(account, attrs, opts \\ []) do
     account
     |> cast(attrs, [:password])
-    |> validate_confirmation(:password, message: "does not match password")
+    |> validate_confirmation(:password, message: "パスワードと一致しません")
     |> validate_password(opts)
   end
 

@@ -12,7 +12,7 @@ msgstr ""
 
 ## From Ecto.Changeset.cast/4
 msgid "can't be blank"
-msgstr ""
+msgstr "空白にはできません"
 
 ## From Ecto.Changeset.unique_constraint/3
 msgid "has already been taken"
@@ -72,8 +72,8 @@ msgstr[1] ""
 
 msgid "should be at least %{count} character(s)"
 msgid_plural "should be at least %{count} character(s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{count}文字以上で入力してください"
+msgstr[1] "%{count}文字以上で入力してください"
 
 msgid "should be at least %{count} byte(s)"
 msgid_plural "should be at least %{count} byte(s)"
