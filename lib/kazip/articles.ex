@@ -31,7 +31,8 @@ defmodule Kazip.Articles do
     query =
       from(a in Article,
         where: a.status == 1,
-        preload: [:category]
+        preload: [:category],
+        order_by: [desc: a.updated_at]
       )
 
     Repo.all(query)
@@ -42,7 +43,8 @@ defmodule Kazip.Articles do
       from(a in Article,
         where: a.status == 1,
         where: a.category_id == ^category.id,
-        preload: [:category]
+        preload: [:category],
+        order_by: [desc: a.updated_at]
       )
 
     Repo.all(query)
@@ -53,7 +55,8 @@ defmodule Kazip.Articles do
       from(a in Article,
         where: a.status == 0,
         where: a.account_id == ^account_id,
-        preload: [:category]
+        preload: [:category],
+        order_by: [desc: a.updated_at]
       )
 
     Repo.all(query)
@@ -64,7 +67,8 @@ defmodule Kazip.Articles do
       from(a in Article,
         where: a.status == 2,
         where: a.account_id == ^account_id,
-        preload: [:category]
+        preload: [:category],
+        order_by: [desc: a.updated_at]
       )
 
     Repo.all(query)
