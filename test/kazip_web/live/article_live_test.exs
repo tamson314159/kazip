@@ -48,8 +48,8 @@ defmodule KazipWeb.ArticleLiveTest do
     test "saves new article", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
-      assert index_live |> element("a", "新しい記事") |> render_click() =~
-               "新しい記事"
+      assert index_live |> element("a", "新規作成") |> render_click() =~
+               "新規作成"
 
       assert_patch(index_live, ~p"/articles/new")
 
@@ -80,7 +80,7 @@ defmodule KazipWeb.ArticleLiveTest do
       {:ok, index_live, _html} = live(conn, ~p"/")
 
       assert index_live |> element("#articles-#{article.id} a", "編集") |> render_click() =~
-               "記事を編集する"
+               "編集"
 
       assert_patch(index_live, ~p"/articles/#{article}/edit")
 

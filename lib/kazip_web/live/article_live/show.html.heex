@@ -5,14 +5,14 @@
   
   <:actions :if={@current_account && @current_account.id == @article.account_id}>
     <.link patch={~p"/articles/#{@article}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>記事を編集</.button>
+      <.button>編集</.button>
     </.link>
   </:actions>
 </.header>
 
 <div class="article_body">
-  <div class="mt-8 text-right text-zinc-700">
-    提出日：
+  <div class="mt-8 text-right text-slate-700 dark:text-slate-400">
+    投稿日:
     <%= @article.submit_date.year %>/<%= @article.submit_date.month %>/<%= @article.submit_date.day %>
   </div>
   

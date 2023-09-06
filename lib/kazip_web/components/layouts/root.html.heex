@@ -11,16 +11,16 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <body class="bg-white antialiased">
+  <body class="text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 antialiased">
     <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
       <%= if @current_account do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
+        <li class="text-[0.8125rem] leading-6 text-slate-700 dark:text-slate-200">
           <%= @current_account.email %>
         </li>
         <li>
           <.link
             href={~p"/accounts/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-slate-700 dark:text-slate-200 font-semibold hover:text-sky-500 dark:hover:text-sky-400"
           >
             設定
           </.link>
@@ -29,7 +29,7 @@
           <.link
             href={~p"/accounts/log_out"}
             method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-slate-700 dark:text-slate-200 font-semibold hover:text-sky-500 dark:hover:text-sky-400"
           >
             ログアウト
           </.link>
@@ -38,7 +38,7 @@
         <li>
           <.link
             href={~p"/accounts/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-slate-700 dark:text-slate-200 font-semibold hover:text-sky-500 dark:hover:text-sky-400"
           >
             アカウント登録
           </.link>
@@ -46,12 +46,18 @@
         <li>
           <.link
             href={~p"/accounts/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            class="text-[0.8125rem] leading-6 text-slate-700 dark:text-slate-200 font-semibold hover:text-sky-500 dark:hover:text-sky-400"
           >
             ログイン
           </.link>
         </li>
       <% end %>
+      <li>
+        <button type="button" phx-click={JS.dispatch("toogle-darkmode")}>
+          <span id="change-color-thema-icon" class="h-5 w-5 text-sky-500 dark:text-sky-400">
+          </span>
+        </button>
+      </li>
     </ul>
     <%= @inner_content %>
   </body>
