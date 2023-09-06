@@ -62,7 +62,7 @@ defmodule KazipWeb.AccountSettingsLiveTest do
         })
 
       assert result =~ "メールアドレスを変更する"
-      assert result =~ "must have the @ sign and no spaces"
+      assert result =~ "スペースを除き、@記号を入力してください"
     end
 
     test "renders errors with invalid data (phx-submit)", %{conn: conn, account: account} do
@@ -133,8 +133,8 @@ defmodule KazipWeb.AccountSettingsLiveTest do
         })
 
       assert result =~ "パスワードを変更する"
-      assert result =~ "should be at least 9 character(s)"
-      assert result =~ "does not match password"
+      assert result =~ "9文字以上で入力してください"
+      assert result =~ "パスワードが一致しません"
     end
 
     test "renders errors with invalid data (phx-submit)", %{conn: conn} do
@@ -152,8 +152,8 @@ defmodule KazipWeb.AccountSettingsLiveTest do
         |> render_submit()
 
       assert result =~ "パスワードを変更する"
-      assert result =~ "should be at least 9 character(s)"
-      assert result =~ "does not match password"
+      assert result =~ "9文字以上で入力してください"
+      assert result =~ "パスワードが一致しません"
       assert result =~ "is not valid"
     end
   end

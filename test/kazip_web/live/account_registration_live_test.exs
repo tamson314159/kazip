@@ -31,8 +31,8 @@ defmodule KazipWeb.AccountRegistrationLiveTest do
         |> render_change(account: %{"email" => "with spaces", "password" => "tooshort"})
 
       assert result =~ "アカウント登録"
-      assert result =~ "must have the @ sign and no spaces"
-      assert result =~ "should be at least 9 character"
+      assert result =~ "スペースを除き、@記号を入力してください"
+      assert result =~ "9文字以上で入力してください"
     end
   end
 

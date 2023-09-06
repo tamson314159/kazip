@@ -36,7 +36,7 @@ defmodule KazipWeb.AccountRegistrationLive do
         <.input field={@form[:password]} type="password" label="パスワード" required />
 
         <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">アカウントを作成する</.button>
+          <.button phx-disable-with="アカウント作成中..." class="w-full">アカウントを作成する</.button>
         </:actions>
       </.simple_form>
     </div>
