@@ -12,47 +12,54 @@
     </script>
   </head>
   <body class="bg-white antialiased">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_account do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          <%= @current_account.email %>
-        </li>
-        <li>
-          <.link
-            href={~p"/accounts/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            設定
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/accounts/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            ログアウト
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
-            href={~p"/accounts/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            アカウント登録
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/accounts/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            ログイン
-          </.link>
-        </li>
-      <% end %>
-    </ul>
+    <div class="flex items-center justify-between border-b border-zinc-100 py-3">
+      <div class="w-2/12 h-auto ml-10 my-10">
+        <a href="/">
+          <img src="/images/kazip-low-resolution-logo-black-on-transparent-background.png" alt="Kazip Logo" />
+        </a>
+      </div>
+      <ul class="mr-10">
+        <%= if @current_account do %>
+          <li class="text-[0.8125rem] leading-6 text-zinc-900">
+            <%= @current_account.email %>
+          </li>
+          <li>
+            <.link
+              href={~p"/accounts/settings"}
+              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              設定
+            </.link>
+          </li>
+          <li>
+            <.link
+              href={~p"/accounts/log_out"}
+              method="delete"
+              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              ログアウト
+            </.link>
+          </li>
+        <% else %>
+          <li>
+            <.link
+              href={~p"/accounts/register"}
+              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              アカウント登録
+            </.link>
+          </li>
+          <li>
+            <.link
+              href={~p"/accounts/log_in"}
+              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              ログイン
+            </.link>
+          </li>
+        <% end %>
+      </ul>
+    </div>
     <%= @inner_content %>
   </body>
 </html>
