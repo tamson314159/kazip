@@ -1,5 +1,5 @@
 <.header>
-  <div class="article_body">
+  <div class="prose prose-slate dark:prose-invert dark:prose-headings:text-slate-200">
     <h1><%= @article.title %></h1>
   </div>
   
@@ -20,9 +20,9 @@
   </ul>
 </div>
 
-<div class="article_body">
-  <%= @article.body |> parse_markdown |> raw %>
-</div>
+<article class="prose prose-slate dark:prose-invert dark:prose-headings:text-slate-300">
+  <%= raw parse_markdown(@article.body) %>
+</article>
 
 <.back navigate={~p"/"}>記事一覧に戻る</.back>
 

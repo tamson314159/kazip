@@ -15,11 +15,6 @@
 //     import "some-package"
 //
 
-// コードハイライト
-import hljs from 'highlight.js';
-import 'highlight.js/styles/default.css';
-import 'highlight.js/lib/languages/markdown';
-
 document.addEventListener('DOMContentLoaded', function () {
   // Wait for the Markdown to render before highlighting code
   setTimeout(function () {
