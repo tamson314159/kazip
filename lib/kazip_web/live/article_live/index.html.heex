@@ -11,7 +11,7 @@
 
   <:actions>
     <.link patch={~p"/articles/new"}>
-      <.button>新しい記事を作成</.button>
+      <.button>新規作成</.button>
     </.link>
   </:actions>
 </.header>
@@ -38,7 +38,7 @@
   
   <:col :let={{_id, article}} label="内容"><%= first_character(article.body || "", 30) %></:col>
   
-  <:col :let={{_id, article}} :if={@live_action != :drafts} label="提出日">
+  <:col :let={{_id, article}} :if={@live_action != :drafts} label="投稿日">
     <%= article.submit_date.year %>/<%= article.submit_date.month %>/<%= article.submit_date.day %>
   </:col>
   

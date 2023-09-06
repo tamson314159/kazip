@@ -37,24 +37,11 @@ defmodule KazipWeb.ArticleLive.FormComponent do
           <.button phx-disable-with="保存中...">記事を保存</.button>
         </:actions>
       </.simple_form>
-       <%!-- ダークモードに対応する前の一時的なコード --%>
-      <label
-        id="preview"
-        class="relative inline-flex items-center cursor-pointer mt-2"
-        phx-target={@myself}
-        phx-click="preview"
-      >
-        <input type="checkbox" value="" class="sr-only peer" checked={@preview} />
-        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
-        </div>
-         <span class="ml-3 text-sm font-medium text-gray-900">プレビュー</span>
-      </label>
-       <%!-- ダークモード対応版 --%>
-      <%!-- <label class="relative inline-flex items-center cursor-pointer mt-2" phx-target={@myself} phx-click="preview">
+      <label class="relative inline-flex items-center cursor-pointer mt-2" phx-target={@myself} phx-click="preview" id="preview">
         <input type="checkbox" value="" class="sr-only peer" checked={@preview}>
         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Preview</span>
-      </label> --%>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">プレビュー</span>
+      </label>
       <div :if={@preview} class="article_body">
         <div class="mb-3">
           <h1><%= @form.params["title"] || @article.title || "" %></h1>
