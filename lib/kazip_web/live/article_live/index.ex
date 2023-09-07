@@ -40,6 +40,7 @@ defmodule KazipWeb.ArticleLive.Index do
     socket
     |> assign(:page_title, "記事一覧")
     |> assign(:article, nil)
+    |> assign(:selected_category, nil)
     |> stream(:articles, Articles.list_articles(:public), reset: true)
     |> assign_form()
   end
@@ -90,7 +91,7 @@ defmodule KazipWeb.ArticleLive.Index do
     articles =
       case category_id do
         "0" ->
-          Articles.list_articles(:public)
+          Articles.list_articles(:public) |> IO.inspect()
         _ ->
           category = Articles.get_category!(category_id)
           Articles.list_articles_by_category(category)
@@ -99,6 +100,7 @@ defmodule KazipWeb.ArticleLive.Index do
     socket =
       socket
       |> assign(:article, nil)
+      |> assign(:selected_category, category_id)
       |> stream(:articles, articles, reset: true)
       |> assign_form()
 

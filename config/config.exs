@@ -12,7 +12,7 @@ config :kazip,
 
 # Configures the endpoint
 config :kazip, KazipWeb.Endpoint,
-  url: [host: "kazip.gigalixir.com", port: 443, scheme: "https"],
+  url: [host: "localhost"],
   render_errors: [
     formats: [html: KazipWeb.ErrorHTML, json: KazipWeb.ErrorJSON],
     layout: false
