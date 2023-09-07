@@ -9,7 +9,7 @@
     限定記事一覧
   </div>
 
-  <:actions>
+  <:actions :if={@current_account}>
     <.link patch={~p"/articles/new"}>
       <.button>新規作成</.button>
     </.link>
